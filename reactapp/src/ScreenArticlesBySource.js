@@ -25,6 +25,21 @@ function ScreenArticlesBySource(props) {
     findArticles()    
   },[])
 
+  useEffect(() => {
+    const addToWishlistBDD = async() => {
+      console.log('props.myArticle :', props.myArticle);
+      var stringWhishlist = JSON.stringify(props.myArticle)
+      var dataWhishlist = await fetch('/add-article', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `token=${props.storeToken}&article=${stringWhishlist}`
+      })
+      const body = await dataWhishlist.json()
+      console.log('body :', body);
+    }
+    addToWishlistBDD()    
+  },[props.myArticle])
+
   var showModal = (title, content) => {
     setVisible(true)
     setTitle(title)
@@ -53,12 +68,7 @@ function ScreenArticlesBySource(props) {
             <div className="Card">
 
               {articleList.map((article,i) => {
-
-                const found = props.myArticles.find(wishArticle => wishArticle.title === article.title);
                 
-                let color = 'green';
-
-
                 return (
 
                   <div key={i} style={{display:'flex',justifyContent:'center'}}>
@@ -82,7 +92,7 @@ function ScreenArticlesBySource(props) {
                       <Icon 
                       type="like" 
                       key="ellipsis" 
-                      onClick={() => props.addToWishlist(article.title,article.description, article.content, article.urlToImage) }
+                      onClick={() => props.addToWishlist(article) }
                     
                       style={{color:'green'}}
                       />
@@ -119,18 +129,18 @@ function ScreenArticlesBySource(props) {
 function mapDispatchToProps(dispatch) {
 
   return {
-    addToWishlist: function(title, description, content, img) { 
+    addToWishlist: function(article) { 
 
-        dispatch( {type: 'addtowishlist', title: title, description : description, content: content, img: img} )
+        dispatch( {type: 'addtowishlist', article: article} )
 
-        console.log('PUSH ARTICLE : ' + title + '*****' + description + '*****' + content + '*****' + img);
+        console.log('PUSH ARTICLE : ' + article);
 
     }
   }
 }
 
 function mapStateToProps(state) {
-  return { myArticles: state.wishlist, storeToken: state.token }
+  return { myArticle: state.wishlist, storeToken: state.token }
 }
 
 

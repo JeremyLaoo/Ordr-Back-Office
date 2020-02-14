@@ -113,7 +113,30 @@ router.post('/sign-in', async function(req, res, next) {
 
 });
 
+router.post('/add-article', async function(req, res, next) {
+
+  var objectWhishlist = JSON.parse(req.body.article);
+
+  let user = await userModel.findOne({ token:req.body.token });
+
+  user.whishlist.push(
+    objectWhishlist
+  )
+
+  var userSaved = await user.save();
+  
+});
 
 
+router.get('/get-whishlist/:token', async function(req, res, next) {
+  
+  var token = req.params.token;
+
+  let user = await userModel.findOne({ token: token });
+
+  console.log('user est ici et là :', user.whishlist);
+
+  res.json(user.whishlist)
+});
 
 module.exports = router;

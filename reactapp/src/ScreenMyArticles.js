@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import './App.css';
 import { Card, Icon, Modal } from 'antd';
@@ -11,8 +11,17 @@ function ScreenMyArticles(props) {
   const [visible, setVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [wishlist, setWishlist] = useState([])
 
-
+  useEffect(() => {
+    const findArticles = async() => {
+      const data = await fetch(`/get-whishlist/${props.storeToken}`)
+      const myArticles = await data.json()
+      setWishlist(myArticles)
+      console.log('myArticles :', myArticles.length);
+    }
+    findArticles()    
+  },[])
 
   var showModal = (title, content) => {
     setVisible(true)
@@ -31,9 +40,7 @@ function ScreenMyArticles(props) {
     setVisible(false)
   }
 
-  console.log('WISHLIST = ' + props.myArticles)
-
-  if(props.myArticles.length === 0) {
+  if (wishlist.length === 0) {
 
     return (
       <div>
@@ -61,7 +68,7 @@ function ScreenMyArticles(props) {
 
             
     
-            {props.myArticles.map((article,i) => (
+            {wishlist.map((article,i) => (
 
                     <div key={i} style={{display:'flex',justifyContent:'center'}}>
 
@@ -75,7 +82,7 @@ function ScreenMyArticles(props) {
                         cover={
                         <img
                             alt="example"
-                            src={article.img}
+                            src={article.urlToImage}
                         />
                         
                         }
@@ -117,7 +124,7 @@ function ScreenMyArticles(props) {
 }
 
 function mapStateToProps(state) {
-  return { myArticles: state.wishlist, storeToken: state.token }
+  return { storeToken: state.token }
 }
 
 
