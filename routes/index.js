@@ -14,6 +14,22 @@ router.get('/', function(req, res, next) {
 });
 
 
+router.post('/lang', async function(req,res,next) {
+
+  bddUser = await userModel.findOne({ token:req.body.token });
+
+  bddUser.lang = req.body.lang;
+  await bddUser.save();
+
+  res.json({
+    lang: true, 
+    lang: bddUser.lang,
+    mess: 'Changement de langue réussie !'
+  });
+
+})
+
+
 
 router.post('/sign-up', async function(req, res, next) {
 
@@ -34,7 +50,8 @@ router.post('/sign-up', async function(req, res, next) {
             firstname: req.body.firstname,
             email: req.body.email,
             password: hash,
-            token: uid2(32)
+            token: uid2(32),
+            lang: 'fr'
           })
           var userSaved = await newUser.save();
 
@@ -46,6 +63,7 @@ router.post('/sign-up', async function(req, res, next) {
             firstname: userSaved.firstname,
             email: userSaved.email, 
             token: userSaved.token,
+            lang: userSaved.lang,
             mess: 'Inscription réussie'
           });
         
@@ -94,7 +112,8 @@ router.post('/sign-in', async function(req, res, next) {
             res.json({
               state: true, 
               mess: 'Authentification réussie',
-              token: userBdd.token
+              token: userBdd.token,
+              lang: userBdd.lang
             }); 
 
           } else {

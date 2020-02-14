@@ -12,17 +12,29 @@ function ScreenSource(props) {
 
 
   useEffect(() => {
-    var APIResultsLoading = async() => {
-      const data = await fetch(`https://newsapi.org/v2/sources?language=${props.storeLanguage}&apiKey=843c12d7562d4d8892f4de1e48c8a422`)
+    let userLang = async() => {
+      const lang = await fetch('/lang', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `token=${props.storeToken}&lang=${props.storeLang}`
+      })
+    }
+    userLang()
+
+
+    let APIResultsLoading = async() => {
+      const data = await fetch(`https://newsapi.org/v2/sources?language=${props.storeLang}&apiKey=843c12d7562d4d8892f4de1e48c8a422`)
       const body = await data.json()
       setSourceList(body.sources)
     }
 
     APIResultsLoading()
-  }, [props.storeLanguage])
+  }, [props.storeLang])
 
 
   console.log('token in store : ' + props.storeToken)
+  console.log('lang in store : ' + props.storeLang)
+
 
 
     return (
@@ -30,14 +42,14 @@ function ScreenSource(props) {
           <Nav/>
         
         <div className="Banner">
-          <a onClick={() => props.changeLanguage('fr')}>
+          <a onClick={() => props.saveLang('fr')}>
             <img
             className="flagImg"
             src="images/flag-fr.png"
             alt="drapeau français"
             />
           </a>
-          <a onClick={() => props.changeLanguage('en')}>
+          <a onClick={() => props.saveLang('en')}>
             <img
             className="flagImg"
             src="images/flag-en.png"
@@ -75,11 +87,11 @@ function ScreenSource(props) {
 function mapDispatchToProps(dispatch) {
 
   return {
-    changeLanguage: function(lang) { 
+    saveLang: function(lang) { 
 
-        dispatch( {type: 'changelanguage', lang:lang} )
+        dispatch( {type: 'saveLang', lang:lang} )
 
-        console.log('CHANGE LANG : ' + lang);
+        console.log('CHANGED LANG : ' + lang);
 
     }
   }
@@ -87,7 +99,7 @@ function mapDispatchToProps(dispatch) {
 
 
 function mapStateToProps(state) {
-  return { storeToken: state.token, storeLanguage: state.lang }
+  return { storeToken: state.token, storeLang: state.lang }
 }
 
 export default connect(

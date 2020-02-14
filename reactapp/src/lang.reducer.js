@@ -1,5 +1,5 @@
 export default function(lang = 'fr', action) {
-    if(action.type === 'changelanguage') {
+    if(action.type === 'saveLang') {
 
         var newLanguage = action.lang;      
 

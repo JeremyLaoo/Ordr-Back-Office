@@ -28,10 +28,13 @@ function ScreenHome(props) {
     var response = await userSignUp.json()
 
 
+
     if(response.state === true){
 
       let token = response.token;
+      let lang = response.lang;
       props.saveToken(token);
+      props.saveLang(lang);
       setIsLogin(true);
 
     } else {
@@ -55,10 +58,12 @@ function ScreenHome(props) {
     if(response.state === true){    
 
       let token = response.token;
+      let lang = response.lang;
       props.saveToken(token);
+      props.saveLang(lang);
       setIsLogin(true);
 
-      console.log('sign in token ' + token)
+      console.log('sign in token ' + token + lang)
 
     } else {
 
@@ -160,6 +165,11 @@ function mapDispatchToProps(dispatch) {
 
         console.log('SAVE TOKEN : ' + token);
 
+    },
+    saveLang: function(lang) {
+        dispatch( {type: 'saveLang', lang: lang})
+
+        console.log('LOGIN LANG : ' + lang)
     }
   }
 }
