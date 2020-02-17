@@ -3,17 +3,13 @@ import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom
 import './App.css';
 
 import ScreenHome from './ScreenHome';
-import ScreenArticlesBySource from './ScreenArticlesBySource'
-import ScreenMyArticles from './ScreenMyArticles'
-import ScreenSource from './ScreenSource'
+import ScreenSuccess from './ScreenSuccess'
 
-import wishlist from './wishlist.reducer';
 import token from './token.reducer';
-import lang from './lang.reducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
 
-const store = createStore(combineReducers({wishlist, token, lang}),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(combineReducers({token}),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -33,9 +29,7 @@ function App() {
       <Router>
         <Switch>
           <Route component={ScreenHome} path="/" exact />
-          <PrivateRoute component={ScreenSource} path="/screensource" exact />
-          <PrivateRoute component={ScreenArticlesBySource} path="/screenarticlesbysource/:id" exact />
-          <PrivateRoute component={ScreenMyArticles} path="/screenmyarticles" exact />
+          <PrivateRoute component={ScreenSuccess} path="/screensuccess" exact />
         </Switch>
       </Router>
 

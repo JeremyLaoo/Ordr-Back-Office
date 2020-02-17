@@ -1,161 +1,137 @@
 var express = require('express');
 var router = express.Router();
 var request = require('sync-request');
-var uid2 = require("uid2");
 
 var userModel = require('../models/users');
 
-var bcrypt = require('bcrypt');
-const saltRounds = 10;
+var SHA256 = require("crypto-js/sha256");
+var encBase64 = require("crypto-js/enc-base64");
 
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
+
   res.render('index', { title: 'Express' });
+  
 });
-
-
-router.post('/lang', async function(req,res,next) {
-
-  bddUser = await userModel.findOne({ token:req.body.token });
-
-  bddUser.lang = req.body.lang;
-  await bddUser.save();
-
-  res.json({
-    lang: true, 
-    lang: bddUser.lang,
-    mess: 'Changement de langue réussie !'
-  });
-
-})
-
-
 
 router.post('/sign-up', async function(req, res, next) {
 
-  if(req.body.email == '' || req.body.password == '') {
-    res.json({
-      state: false, 
-      mess: 'Vérifiez les informations saisies'
-    });
-  } else {
-    alreadyExist = await userModel.findOne({ email:req.body.email });
+  var error = [];
+  var result = false;
+  var saveUser = null;
 
-    console.log(alreadyExist)
+  const data = await userModel.findOne({
+    email: req.body.email
+  })
 
-    if(alreadyExist === null){
+  // Gestion des erreurs
 
-        bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
-          var newUser = await new userModel({
-            firstname: req.body.firstname,
-            email: req.body.email,
-            password: hash,
-            token: uid2(32),
-            lang: 'fr'
-          })
-          var userSaved = await newUser.save();
-
-          console.log('*** Inscription ' + req.body.email + ' réussie ***')
-          console.log(userSaved)
-
-          res.json({
-            state: true, 
-            firstname: userSaved.firstname,
-            email: userSaved.email, 
-            token: userSaved.token,
-            lang: userSaved.lang,
-            mess: 'Inscription réussie'
-          });
-        
-        });   
-
-    } else {
-
-      console.log('/// '+ req.body.email + ' est déjà inscrit !');
-      res.json({
-        state: false, 
-        mess: 'Erreur d\'inscription'
-      });
-
-    }
+  if (data != null) {
+    error.push('Utilisateur déjà présent')
   }
+
+  if (req.body.email == ''
+  || req.body.password == ''
+  || req.body.confirmedpassword == ''
+  ){
+    error.push('Champs vides')
+  }
+
+  if (req.body.password != req.body.confirmedpassword) {
+    error.push('Mots de passe différents')
+
+  }
+
+  if (req.body.termsofuse == 'false') {
+    error.push("Veuillez accepter les conditions d'utilisation");
+  }
+
+  // Nouveau Token
+
+  function newToken(num) {
+
+    var token = "";
+
+    for (let i = 0; i < num; i++) {
+
+      var letter;
+      var maj = Math.floor(Math.random()*3);
+
+      if (maj == 0)
+        maj = 65;
+      else if (maj == 1)
+        maj = 97;
+      else
+        maj = 48
+      
+      maj == 65 || maj == 97 ?  letter = maj + Math.floor(Math.random()*(25+1)) : letter = maj + Math.floor(Math.random()*(9+1));
+      letter = String.fromCharCode(letter)
+      token += letter;
+    }
+    return token;
+  }
+
+  // Enregistrement d'un nouvel utilisateur
+
+  var salt = newToken(32);
+
+  if (error.length == 0) {
+    var newUser = new userModel({
+      email: req.body.email,
+      salt: salt,
+      password: SHA256(req.body.password + salt).toString(encBase64),
+      token: newToken(32)
+    })
+    
+    console.log('newUser :', newUser);
+
+    saveUser = await newUser.save()
+  
+    if (saveUser)
+      result = true
+  }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({result, saveUser, error})
 });
 
 
 router.post('/sign-in', async function(req, res, next) {
 
-  if(req.body.email == '' || req.body.password == '') {
-    res.json({
-      state: false, 
-      mess: 'Vérifiez les informations saisies'
-    });
+  var error = [];
+  var result = false;
+  var userBdd = null;
+  var token = null;
+
+  // Gestion des erreurs
+
+  if (req.body.email == '' || req.body.password == '') {
+      error.push('Champs vides')
   } else {
 
-    let userBdd = await userModel.findOne({ email:req.body.email });
+    var userBdd = await userModel.findOne({ email:req.body.email });
 
-    if(userBdd == null) {
-
-      console.log(userBdd.email + ' : Compte client introuvable')
-
-      res.json({
-        state: false, 
-        mess: 'Erreur d\'authentification'
-      }); 
-
+    if (userBdd == null) {
+      error.push('Compte introuvable')
     } else {
 
-      bcrypt.compare(req.body.password, userBdd.password, function (err, result) {
-          if (result == true) {
+      // Comparaison des mots de passes cryptées
 
-            console.log(userBdd.email + ' : Mot de passe correct')
-
-            res.json({
-              state: true, 
-              mess: 'Authentification réussie',
-              token: userBdd.token,
-              lang: userBdd.lang
-            }); 
-
-          } else {
-            console.log(userBdd.email + ' : Mauvais mot de passe')
-
-            res.json({
-              state: false, 
-              mess: 'Erreur d\'authentification'
-            }); 
-            
-          }
-      });
+      if (SHA256(req.body.password + userBdd.salt).toString(encBase64) == userBdd.password) {
+        result = true
+        token = userBdd.token;
+      } else {
+        error.push('Mot de passe incorrect');
+      }
     }
-
   }
 
-});
+  // Envoie des informations importantes vers le front-end
 
-router.post('/add-article', async function(req, res, next) {
+  res.json({ result, userBdd, error, token })
 
-  var objectWhishlist = JSON.parse(req.body.article);
-
-  let user = await userModel.findOne({ token:req.body.token });
-
-  user.whishlist.push(
-    objectWhishlist
-  )
-
-  var userSaved = await user.save();
-  
-});
-
-
-router.get('/get-whishlist/:token', async function(req, res, next) {
-  
-  var token = req.params.token;
-
-  let user = await userModel.findOne({ token: token });
-
-  console.log('user est ici et là :', user.whishlist);
-
-  res.json(user.whishlist)
 });
 
 module.exports = router;

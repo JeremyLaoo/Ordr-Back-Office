@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import {Input,Button} from 'antd';
+import {Input,Button,Checkbox} from 'antd';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -9,9 +9,10 @@ function ScreenHome(props) {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  const [signUpFirstName, setSignUpFirstName] = useState('');
   const [signUpEmail, setSignUpEmail] = useState('');
   const [signUpPassword, setSignUpPassword] = useState('');
+  const [signUpConfirmedPassword, setSignUpConfirmedPassword] = useState('');
+  const [termsOfUse, setTermsOfUse] = useState(false);
 
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
@@ -19,35 +20,35 @@ function ScreenHome(props) {
   const [signInError, setSignInError] = useState('');
   const [signUpError, setSignUpError] = useState('');
 
-  var handleSignUpClick = async ()=> {
+  /* SIGN-UP FUNCTION */
+
+  var handleSignUpClick = async () => {
+    console.log('termsOfUse :', termsOfUse);
     let userSignUp = await fetch('/sign-up', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `firstname=${signUpFirstName}&email=${signUpEmail}&password=${signUpPassword}`
+      body: `email=${signUpEmail}&password=${signUpPassword}&confirmedpassword=${signUpConfirmedPassword}&termsofuse=${termsOfUse}`
     })
     var response = await userSignUp.json()
 
+    if (response.result) {
 
-
-    if(response.state === true){
-
-      let token = response.token;
-      let lang = response.lang;
-      props.saveToken(token);
-      props.saveLang(lang);
+      props.saveToken(response.saveUser.token);
       setIsLogin(true);
-
+      
     } else {
       
-      setSignUpError(response.mess);
-      setSignUpFirstName('');
-      setSignUpEmail('');
+      setSignUpError(response.error[0]);
+      // setSignUpEmail('');
       setSignUpPassword('');
+      setSignUpConfirmedPassword('');
 
     }
   }
 
-  var handleSignInClick = async ()=> {
+  /* SIGN-IN FUNCTION */
+
+  var handleSignInClick = async () => {
     var userSignIn = await fetch('/sign-in', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -55,30 +56,25 @@ function ScreenHome(props) {
     })
     var response = await userSignIn.json();
 
-    if(response.state === true){    
+    if (response.result) {
 
-      let token = response.token;
-      let lang = response.lang;
-      props.saveToken(token);
-      props.saveLang(lang);
+      props.saveToken(response.userBdd.token);
       setIsLogin(true);
-
-      console.log('sign in token ' + token + lang)
-
+      
     } else {
-
-      setSignInError(response.mess);
-      setSignInEmail('');
+      
+      setSignInError(response.error[0]);
+      // setSignInEmail('');
       setSignInPassword('');
 
     }
   }
 
+  /* REDIRECTION */
 
-  if(isLogin){
-
+  if (isLogin) {
     return (
-      <Redirect to='/screensource' />
+      <Redirect to='/screensuccess' />
     );
 
   } else {
@@ -94,7 +90,7 @@ function ScreenHome(props) {
               
         <Input
         className="Login-input" 
-        placeholder="arthur@lacapsule.com"
+        placeholder="email@placeholder.com"
         onChange={(e) => setSignInEmail(e.target.value)}
         value={signInEmail} 
         required
@@ -102,7 +98,7 @@ function ScreenHome(props) {
 
         <Input.Password
         className="Login-input" 
-        placeholder="Mot de passe"
+        placeholder="Password"
         onChange={(e) => setSignInPassword(e.target.value)}
         value={signInPassword} 
         required
@@ -117,20 +113,10 @@ function ScreenHome(props) {
       {/* SIGN-UP */}
 
       <div className="Sign">
-
-
-        <Input 
-        className="Login-input" 
-        placeholder="Arthur"
-        type="text"
-        onChange={(e) => setSignUpFirstName(e.target.value)}
-        value={signUpFirstName} 
-        required
-        />
               
         <Input 
         className="Login-input" 
-        placeholder="arthur@lacapsule.com"
+        placeholder="email@placeholder.com"
         onChange={(e) => setSignUpEmail(e.target.value)}
         value={signUpEmail} 
         required
@@ -138,11 +124,21 @@ function ScreenHome(props) {
 
         <Input.Password
         className="Login-input" 
-        placeholder="Mot de passe"
+        placeholder="Password"
         onChange={(e) => setSignUpPassword(e.target.value)}
         value={signUpPassword} 
         required
-        />            
+        />  
+
+        <Input.Password
+        className="Login-input" 
+        placeholder="Repeat Password"
+        onChange={(e) => setSignUpConfirmedPassword(e.target.value)}
+        value={signUpConfirmedPassword} 
+        required
+        />          
+
+        <Checkbox style={{marginBottom: '15px'}} onChange={() => setTermsOfUse(!termsOfUse)}>Terms of use</Checkbox>
 
         <Button onClick={() => handleSignUpClick()} style={{width:'80px'}} type="primary">Sign-up</Button>
 
@@ -165,11 +161,6 @@ function mapDispatchToProps(dispatch) {
 
         console.log('SAVE TOKEN : ' + token);
 
-    },
-    saveLang: function(lang) {
-        dispatch( {type: 'saveLang', lang: lang})
-
-        console.log('LOGIN LANG : ' + lang)
     }
   }
 }

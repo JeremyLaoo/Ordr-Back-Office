@@ -1,19 +1,10 @@
-var mongoose = require('./bdd');
-
-var whishlistSchema = mongoose.Schema({
-    title: String,
-    description: String,
-    content: String,
-    urlToImage: String
-});
+var mongoose = require('./connection');
 
 var userSchema = mongoose.Schema({
-    firstname: String,
     email: String,
+    salt: String,
     password: String,
-    token: String,
-    lang: String,
-    whishlist: [whishlistSchema]
+    token: String
 });
 
 var userModel = mongoose.model('users', userSchema);
