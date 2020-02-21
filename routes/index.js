@@ -7,6 +7,8 @@ var userModel = require('../models/users');
 var SHA256 = require("crypto-js/sha256");
 var encBase64 = require("crypto-js/enc-base64");
 
+const sgMail = require('@sendgrid/mail');
+
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
@@ -20,6 +22,8 @@ router.post('/sign-up', async function(req, res, next) {
   var error = [];
   var result = false;
   var saveUser = null;
+  var SENDGRID_API_KEY = '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'
+  sgMail.setApiKey(SENDGRID_API_KEY);
 
   const data = await userModel.findOne({
     email: req.body.email
@@ -81,15 +85,26 @@ router.post('/sign-up', async function(req, res, next) {
       email: req.body.email,
       salt: salt,
       password: SHA256(req.body.password + salt).toString(encBase64),
-      token: newToken(32)
+      token: newToken(32),
+      tokenToCheck: newToken(16),
+      checked: false
     })
     
     console.log('newUser :', newUser);
 
     saveUser = await newUser.save()
   
-    if (saveUser)
+    if (saveUser) {
       result = true
+      const msg = {
+        to: 'edgarcovarel@yahoo.fr',
+        from: 'test@example.com',
+        subject: 'Sending with Twilio SendGrid is Fun',
+        text: 'and easy to do anywhere, even with Node.js',
+        html: `<strong>your validation token is :${saveUser.tokenToCheck}</strong>`,
+      };
+      sgMail.send(msg);
+    }
   }
 
   // Envoie des informations importantes vers le front-end
@@ -103,7 +118,6 @@ router.post('/sign-in', async function(req, res, next) {
   var error = [];
   var result = false;
   var userBdd = null;
-  var token = null;
 
   // Gestion des erreurs
 
@@ -119,18 +133,27 @@ router.post('/sign-in', async function(req, res, next) {
 
       // Comparaison des mots de passes cryptées
 
-      if (SHA256(req.body.password + userBdd.salt).toString(encBase64) == userBdd.password) {
-        result = true
-        token = userBdd.token;
-      } else {
+      if (!(SHA256(req.body.password + userBdd.salt).toString(encBase64) == userBdd.password)) {
         error.push('Mot de passe incorrect');
+      } else {
+        if (userBdd.checked == false) {
+          if ((req.body.token == userBdd.tokenToCheck)) {
+            result = true;
+            await userModel.update({ email: userBdd.email }, {$set:{checked: true}})
+            console.log('userBdd :', userBdd);
+          }
+          error.push("Votre compte n'est pas activé")
+        } else {
+          result = true;
+        }
       }
     }
   }
 
+  console.log('userBdd :', userBdd);
   // Envoie des informations importantes vers le front-end
 
-  res.json({ result, userBdd, error, token })
+  res.json({ result, userBdd, error })
 
 });
 

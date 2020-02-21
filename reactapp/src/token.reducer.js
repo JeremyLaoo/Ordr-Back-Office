@@ -1,7 +1,7 @@
-export default function(token = '', action) {
+export default function(token = {}, action) {
     if(action.type === 'saveToken') {
 
-        var newToken = action.token;      
+        var newToken = {token: action.token, tokenToCheck: action.tokenToCheck};      
        
         return newToken;
 

@@ -16,9 +16,12 @@ function ScreenHome(props) {
 
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
-
+  const [signInTokenToCheck, setSignInTokenToCheck] = useState('');
+  
   const [signInError, setSignInError] = useState('');
   const [signUpError, setSignUpError] = useState('');
+
+  const [inputTokenIsVisible, setInputTokenIsVisible]  = useState('none');
 
   /* SIGN-UP FUNCTION */
 
@@ -32,8 +35,8 @@ function ScreenHome(props) {
     var response = await userSignUp.json()
 
     if (response.result) {
-
-      props.saveToken(response.saveUser.token);
+      
+      props.saveToken(response.saveUser.token, response.saveUser.tokenToCheck);
       setIsLogin(true);
       
     } else {
@@ -52,21 +55,25 @@ function ScreenHome(props) {
     var userSignIn = await fetch('/sign-in', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `email=${signInEmail}&password=${signInPassword}`
+      body: `email=${signInEmail}&password=${signInPassword}&token=${signInTokenToCheck}`
     })
     var response = await userSignIn.json();
 
     if (response.result) {
 
-      props.saveToken(response.userBdd.token);
+      props.saveToken(response.userBdd.token, response.userBdd.tokenToCheck);
+
       setIsLogin(true);
       
     } else {
       
-      setSignInError(response.error[0]);
+      if (response.error[0] === "Votre compte n'est pas activé") {
+        setInputTokenIsVisible('block');
+      } else {
       // setSignInEmail('');
       setSignInPassword('');
-
+      }
+      setSignInError(response.error[0]);
     }
   }
 
@@ -104,9 +111,18 @@ function ScreenHome(props) {
         required
         />  
 
+        <Input
+        style={{display: `${inputTokenIsVisible}`}}
+        className="Login-input" 
+        placeholder="Your token (sended by mail)"
+        onChange={(e) => setSignInTokenToCheck(e.target.value)}
+        value={signInTokenToCheck} 
+        required
+        />  
+
         <Button onClick={() => handleSignInClick()} style={{width:'80px'}} type="primary">Sign-in</Button>
 
-        <span className="error">{signInError}</span>
+        <span style={{marginTop: '10px'}} className="error">{signInError}</span>
 
       </div>
 
@@ -142,7 +158,7 @@ function ScreenHome(props) {
 
         <Button onClick={() => handleSignUpClick()} style={{width:'80px'}} type="primary">Sign-up</Button>
 
-        <span className="error">{signUpError}</span>
+        <span style={{marginTop: '10px'}} className="error">{signUpError}</span>
 
       </div>
 
@@ -156,10 +172,11 @@ function ScreenHome(props) {
 function mapDispatchToProps(dispatch) {
 
   return {
-    saveToken: function(token) { 
-        dispatch( {type: 'saveToken', token: token} )
+    saveToken: function(token, tokenToCheck) { 
+        dispatch( {type: 'saveToken', token: token, tokenToCheck: tokenToCheck} )
 
         console.log('SAVE TOKEN : ' + token);
+        console.log('SAVE TOKENTOCHECK : ' + tokenToCheck);
 
     }
   }
