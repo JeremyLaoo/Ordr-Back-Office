@@ -5,8 +5,6 @@ var userSchema = mongoose.Schema({
     salt: String,
     password: String,
     token: String,
-    tokenToCheck: String,
-    checked: Boolean
 });
 
 var userModel = mongoose.model('users', userSchema);
