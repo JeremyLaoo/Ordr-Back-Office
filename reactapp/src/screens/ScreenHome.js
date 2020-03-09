@@ -4,7 +4,6 @@ import {Input,Button,Checkbox} from 'antd';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-
 function ScreenHome(props) {
 
   const [isLogin, setIsLogin] = useState(false);
@@ -81,7 +80,7 @@ function ScreenHome(props) {
 
   if (isLogin) {
     return (
-      <Redirect to='/neworder' />
+      <Redirect to='/newtable' />
     );
 
   } else {
@@ -173,10 +172,9 @@ function mapDispatchToProps(dispatch) {
 
   return {
     saveToken: function(token, tokenToCheck) { 
-        dispatch( {type: 'saveToken', token: token, tokenToCheck: tokenToCheck} )
+        dispatch( {type: 'saveToken', token: token} )
 
         console.log('SAVE TOKEN : ' + token);
-        console.log('SAVE TOKENTOCHECK : ' + tokenToCheck);
 
     }
   }
