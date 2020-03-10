@@ -26,16 +26,16 @@ const useStyles = makeStyles({
 
 
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, produit, totalQuantity, carbs, protein) {
+  return { name, produit, totalQuantity, carbs, protein };
 }
 
 const rows = [
-  createData('Frozen yoghurt', 'X2      Leffe', 6.0, 24, 8),
-  createData('Ice cream sandwich', 237, 9.0, 37, 12),
-  createData('Eclair', 262, 16.0, 24, 16),
-  createData('Cupcake', 305, 3.7, 67, 13),
-  createData('Gingerbread', 356, 16.0, 49, 22),
+  createData('Frozen yoghurt', 'Leffe', 6.0, 24, 8),
+  createData('Ice cream sandwich', 'Brooklyn', 9.0, 37, 12),
+  // createData('Eclair', 262, 16.0, 24, 16),
+  // createData('Cupcake', 305, 3.7, 67, 13),
+  // createData('Gingerbread', 356, 16.0, 49, 22),
 ];
 
 function NewOrder() {
@@ -54,41 +54,32 @@ function NewOrder() {
               <Table aria-label="caption table">
                 <TableHead style={{ backgroundColor:  'black', color: 'white'}}>
                   <TableRow classeName={classes.titleTable}>
-                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">N° de commande</TableCell>
-                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Quantité </TableCell>
-                    <TableCell style={{color: 'white',  fontWeight: 'bold', fontSize: '24'}} align="left">Prix total</TableCell>
-                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Timer</TableCell>
-                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Table</TableCell>
-                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="center">Statut</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '28'}} align="left">N° de commande</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '28'}} align="left">Name </TableCell>
+                    <TableCell style={{color: 'white',  fontWeight: 'bold', fontSize: '28'}} align="center">Quantité</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '28'}} align="center">Prix Total</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '28'}} align="center">Table</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '28'}} align="center">Statut</TableCell>
                   </TableRow>
                 </TableHead>
-              </Table>
-            </TableContainer>
-
-            <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
-              <Table aria-label="caption table">
-                <TableHead style={{ backgroundColor:  'black', color: 'white'}}></TableHead>
-                <TableBody>
+             
+                {/* <TableHead style={{ backgroundColor:  'black', color: 'white'}}></TableHead> */}
+                
                   {rows.map(row => (
+                    <TableBody>
                     <TableRow key={row.name}>
                       <TableCell component="th" scope="row" style={{ verticalAlign: 'top'}}>
                         <div >
                           <div style={{ fontSize: 22, fontWeight: 'Bold' }} >W69</div>
-                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
-                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
                         </div> 
                       </TableCell>
         
-                      <TableCell align="left" style={{ verticalAlign: 'top'}}>
-                        <div >
-                          <div style={{ fontSize: 22, fontWeight: 'Bold' }} >2</div>
-                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
-                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
-                        </div>
+                      <TableCell>
+                      {/* MISE EN PAGE CELLULE POUR ALIGNEMENT */}
                       </TableCell>
 
                       <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>
-                        {row.fat}
+                        {row.totalQuantity}
                       </TableCell>
 
                       <TableCell align="center"style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>
@@ -100,14 +91,36 @@ function NewOrder() {
                       </TableCell>
 
                       <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}> 
-                        <Button variant="contained" disableElevation  style={{ backgroundColor: '#06C216',  color:  'white', fontWeight: 'bold'}}>
+                        <Button variant="contained" disableElevation  style={{ backgroundColor: '#50bda1',  color:  'white', fontWeight: 'bold'}}>
                         Accepter
                         </Button>
                       </TableCell>
 
                     </TableRow>
+                      <TableCell>
+                        {/* MISE EN PAGE CELLULE POUR ALIGNEMENT */}
+                      </TableCell>
+                      <TableCell  style={{ verticalAlign: 'top', fontSize: 18, fontStyle: 'italic'}}>
+                            <div>{row.produit}</div>
+                            <div>{row.produit}</div>
+                      </TableCell>
+                      <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 18}}>
+                            <div>{row.totalQuantity}</div>
+                            <div>{row.totalQuantity}</div>
+                      </TableCell>
+                      <TableCell>
+                        {/* MISE EN PAGE CELLULE POUR ALIGNEMENT */}
+                      </TableCell>
+                      <TableCell>
+                       {/* MISE EN PAGE CELLULE POUR ALIGNEMENT */} 
+                      </TableCell>
+                      <TableCell>
+                        {/* MISE EN PAGE CELLULE POUR ALIGNEMENT */}
+                      </TableCell>
+
+                  </TableBody>
                    ))}
-                </TableBody>
+                
               </Table>
             </TableContainer>
           </div>
