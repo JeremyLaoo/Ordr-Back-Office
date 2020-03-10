@@ -43,62 +43,91 @@ function NewOrder() {
   const theme = useTheme();
 
   return (
-    <div style={{display:'flex', marginTop: 70}}>
-       <Nav/>
-       <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 }}>
-       <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 }}>
-      <NavOrder />
-      </div><div>
-    <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
-    <Table aria-label="caption table">
-      <TableHead style={{ backgroundColor:  'black', color: 'white'}}>
-        <TableRow classeName={classes.titleTable}>
-          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">N° de commande</TableCell>
-          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Quantité </TableCell>
-          <TableCell style={{color: 'white',  fontWeight: 'bold', fontSize: '24'}} align="left">Prix total</TableCell>
-          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Timer</TableCell>
-          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Table</TableCell>
-          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="center">Statut</TableCell>
-     </TableRow>
-  </TableHead>
-  </Table>
- </TableContainer>
+    <div style={{display:'flex', marginTop: 80}}>
+      <Nav/>
+        <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 }}>
+          <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 }}>
+            <NavOrder />
+          </div>
+          <div>
+            <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
+              <Table aria-label="caption table">
+                <TableHead style={{ backgroundColor:  'black', color: 'white'}}>
+                  <TableRow classeName={classes.titleTable}>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">N° de commande</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Quantité </TableCell>
+                    <TableCell style={{color: 'white',  fontWeight: 'bold', fontSize: '24'}} align="left">Prix total</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Timer</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Table</TableCell>
+                    <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="center">Statut</TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
 
- <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
-    <Table aria-label="caption table">
-      <TableHead style={{ backgroundColor:  'black', color: 'white'}}></TableHead>
-  <TableBody>
-       {rows.map(row => (
-         <TableRow key={row.name}>
-           <TableCell component="th" scope="row" style={{ verticalAlign: 'top'}}>
-           <div >
-               <div style={{ fontSize: 22, fontWeight: 'Bold' }} >W95</div>
-               <div  style={{ fontSize: 18 }}>{row.calories}</div>
-               <div  style={{ fontSize: 18 }}>{row.calories}</div>
-               </div> </TableCell>
+            <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
+              <Table aria-label="caption table">
+                <TableHead style={{ backgroundColor:  'black', color: 'white'}}></TableHead>
+                <TableBody>
+                  {rows.map(row => (
+                    <TableRow key={row.name}>
+                      <TableCell component="th" scope="row" style={{ verticalAlign: 'top'}}>
+                        <div >
+                          <div style={{ fontSize: 22, fontWeight: 'Bold' }} >W69</div>
+                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
+                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
+                        </div> 
+                      </TableCell>
         
-           <TableCell align="left" style={{ verticalAlign: 'top'}}>
-               <div >
-               <div style={{ fontSize: 22, fontWeight: 'Bold' }} >2</div>
-               <div  style={{ fontSize: 18 }}>{row.calories}</div>
-               <div  style={{ fontSize: 18 }}>{row.calories}</div>
-               </div> </TableCell>
-           <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>{row.fat}</TableCell>
-           <TableCell align="center"style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>{row.carbs}</TableCell>
-           <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>{row.protein}</TableCell>
-           <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}> <Button variant="contained" disableElevation  style={{ backgroundColor: '#06C216',  color:  'white', fontWeight: 'bold'}}>
-   Accepter
- </Button></TableCell>
-         </TableRow>
-       ))}
-     </TableBody>
-   </Table>
- </TableContainer>
- </div>
- </div>
- </div>
+                      <TableCell align="left" style={{ verticalAlign: 'top'}}>
+                        <div >
+                          <div style={{ fontSize: 22, fontWeight: 'Bold' }} >2</div>
+                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
+                          <div  style={{ fontSize: 18 }}>{row.calories}</div>
+                        </div>
+                      </TableCell>
+
+                      <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>
+                        {row.fat}
+                      </TableCell>
+
+                      <TableCell align="center"style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>
+                        {row.carbs}
+                      </TableCell>
+
+                      <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>
+                        {row.protein}
+                      </TableCell>
+
+                      <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}> 
+                        <Button variant="contained" disableElevation  style={{ backgroundColor: '#06C216',  color:  'white', fontWeight: 'bold'}}>
+                        Accepter
+                        </Button>
+                      </TableCell>
+
+                    </TableRow>
+                   ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+      </div>
   );
 }
+
+// var styles = StyleSheet.create({
+
+//   numberOrder: {
+//     fontSize: 22, 
+//     fontWeight: 'Bold',
+//     color: "#eb4034"
+//   },
+  
+
+
+
+// });
 
 
 
