@@ -143,6 +143,7 @@ router.post('/new-table', async function(req, res, next) {
   var qrCodeTable = null;
 
   // Gestion des erreurs
+  console.log('req.body.tableName :', req.body.tableName);
 
   if (req.body.tableName == '') {
       error.push('Champ vide')
@@ -242,8 +243,6 @@ router.post('/delete-table', async function(req, res, next) {
 
   var restoBdd = await userModel.findOne({ token: req.body.restoToken })
 
-  console.log('req.body.tableName :', req.body.tableName);
-
   if (restoBdd == undefined) {
     error.push('Fatal Error : Restorant introuvable')
   } else {
@@ -257,7 +256,7 @@ router.post('/delete-table', async function(req, res, next) {
         break;
       }
     }
-    
+
     restoBdd.table.splice(position, 1)
 
     saveUser = await restoBdd.save();
