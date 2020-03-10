@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -30,7 +31,7 @@ const drawerWidth = 260;
 function Nav() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -84,24 +85,31 @@ function Nav() {
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
-    
+      
       <List className={classes.listToolbar}>
-          <ListItem button key= "order">
+        
+          <Link to="/neworder">
+          <ListItem button key= "order" className={classes.listItem}>
             <ListItemIcon className={classes.listItemIcon} > <ListAltIcon /></ListItemIcon>
             <ListItemText primary="Gestion des commandes" />
           </ListItem>
-    
-          <ListItem button key="menu">
+          </Link>
+
+          <Link to="/newtable" >
+          <ListItem button key="menu" className={classes.listItem}>
             <ListItemIcon className={classes.listItemIcon}> <RestaurantMenuTwoToneIcon /> </ListItemIcon>
             <ListItemText primary="Gestion du menu" />
           </ListItem>
-
+          </Link>
         
-          <ListItem button key= "organisation">
-            <ListItemIcon  className={classes.listItemIcon}><SettingsIcon /></ListItemIcon>
-            <ListItemText primary="Gestion des tables" />
+          <Link to="/newtable" >
+          <ListItem button key= "organisation" className={classes.listItem}>
+            <ListItemIcon  className={classes.listItemIcon} ><SettingsIcon /></ListItemIcon>
+            <ListItemText primary="Gestion des tab" />
           </ListItem>
+          </Link>
       </List>
+
     </Drawer>
     </div>
   );
@@ -116,7 +124,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appBar: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011429',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -135,7 +143,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: 36,
   },
   hide: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011429',
     display: 'none',
   },
   drawer: {
@@ -145,7 +153,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011429',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -153,7 +161,8 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   drawerClose: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011429',
+    backgroundOpacity: 20,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -178,23 +187,32 @@ const useStyles = makeStyles(theme => ({
   },
   titleTable:{
     fontWeight: 'bold',
-    color: 'black'
+    color: '#011429'
   },
   listToolbar:{
-    marginTop: 30,
     color : "white",
   },
-  listItemIcon: {
+  listItem: {
+    marginTop: 30,
     height:  40,
     color : "white"
 
   },
+  listItemIcon: {
+    color : "white"
+  },
+
   chevronRightIcon:{
     color: "white",
   },
   title:{
     marginLeft :  720 
+  },
+  link:{
+    color : 'white',
+    fontSize:  '24'
   }
+
 
 }));
 

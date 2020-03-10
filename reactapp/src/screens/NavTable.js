@@ -3,7 +3,7 @@ import {Input,Button} from 'antd';
 import {connect} from 'react-redux';
 
 import { FaQrcode } from 'react-icons/fa';
-
+import Nav from './nav'
 import Table from '../components/Table'
 
 import './App.css';
@@ -66,7 +66,7 @@ function NavTable(props) {
   return (
 
     <div>
-
+        <Nav/>
       <div className="Sign">
                 
           <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="new table name" />
