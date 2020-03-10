@@ -1,12 +1,31 @@
 var mongoose = require('./connection');
 
-var userSchema = mongoose.Schema({
+var productSchema = mongoose.Schema({
+    name: String,
+    price: String,
+    tva: Number, 
+});
+
+var menuSchema = mongoose.Schema({
+    category: String,
+    products: [productSchema], 
+});
+
+var tableSchema = mongoose.Schema({
+    tableName: String,
+    tableToken: String,
+    tableQrCode: String,
+});
+
+var proUserSchema = mongoose.Schema({
     email: String,
     salt: String,
     password: String,
     token: String,
+    table: [tableSchema],
+    menu: [menuSchema]
 });
 
-var userModel = mongoose.model('users', userSchema);
+var ProUserModel = mongoose.model('proUser', proUserSchema);
 
-module.exports = userModel;
+module.exports = ProUserModel;
