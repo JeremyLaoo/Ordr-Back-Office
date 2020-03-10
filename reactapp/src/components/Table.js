@@ -40,7 +40,10 @@ function Table(props) {
         setDisabled(!disabled);
     }
 
-    var deleteTable = async () => {
+    var deleteTable = async (name) => {
+
+        console.log('props.tableName :', props.tableName);
+        console.log('changeTableName :', changeTableName);
 
         let data = await fetch('/delete-table', {
             method: 'POST',
@@ -51,9 +54,9 @@ function Table(props) {
     
           if (response.result) {
               setDeleteSuccessMsg('Element supprimé');
+              props.handleClickParent();
           }
 
-        props.handleClickParent();
     }
 
     var iconChecked = null;
@@ -69,7 +72,7 @@ function Table(props) {
 
             {iconChecked}
 
-            <Menu onClick={{}} style={{ width: 75, backgroundColor: 'transparent', border: 'none' }} mode="vertical">
+            <Menu style={{ width: 75, backgroundColor: 'transparent', border: 'none' }} mode="vertical">
                 <SubMenu
                 key="sub1"
                 title={ <FaEllipsisH /> }
