@@ -46,6 +46,8 @@ function Nav() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        width="100%"
+        display="flex"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -62,9 +64,7 @@ function Nav() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" style={{display:'flex', marginLeft: 750}} noWrap>
-            Gestion des commandes
-          </Typography>
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -81,7 +81,9 @@ function Nav() {
       }}
     >
       <div className={classes.toolbar}>
+        
         <IconButton onClick={handleDrawerClose} className={classes.chevronRightIcon}>
+        <img src="./images/Logo.png" width="100" height="60" style={{ marginRight: 60}} />
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
@@ -90,21 +92,21 @@ function Nav() {
         
           <Link to="/neworder">
           <ListItem button key= "order" className={classes.listItem}>
-            <ListItemIcon className={classes.listItemIcon} > <ListAltIcon /></ListItemIcon>
+            <ListItemIcon > <ListAltIcon style={{ fontSize: 50, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des commandes" />
           </ListItem>
           </Link>
 
           <Link to="/newtable" >
           <ListItem button key="menu" className={classes.listItem}>
-            <ListItemIcon className={classes.listItemIcon}> <RestaurantMenuTwoToneIcon /> </ListItemIcon>
+            <ListItemIcon > <RestaurantMenuTwoToneIcon style={{ fontSize: 50, color: 'white' }} /> </ListItemIcon>
             <ListItemText primary="Gestion du menu" />
           </ListItem>
           </Link>
         
           <Link to="/newtable" >
           <ListItem button key= "organisation" className={classes.listItem}>
-            <ListItemIcon  className={classes.listItemIcon} ><SettingsIcon /></ListItemIcon>
+            <ListItemIcon  ><SettingsIcon style={{ fontSize: 50, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des tables" />
           </ListItem>
           </Link>
@@ -124,7 +126,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appBar: {
-    backgroundColor: '#011429',
+    backgroundColor: '#011329',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -139,11 +141,15 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  logo: {
+    marginLeft: 670,
+    backgroundColor: 'transparent'
+  },
   menuButton: {
     marginRight: 36,
   },
   hide: {
-    backgroundColor: '#011429',
+    backgroundColor: 'pink',
     display: 'none',
   },
   drawer: {
@@ -153,7 +159,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
-    backgroundColor: '#011429',
+    backgroundColor: '#011329',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -161,7 +167,7 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   drawerClose: {
-    backgroundColor: '#011429',
+    backgroundColor: '#011329',
     backgroundOpacity: 20,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -194,12 +200,9 @@ const useStyles = makeStyles(theme => ({
   },
   listItem: {
     marginTop: 30,
-    height:  40,
+    height:  60,
     color : "white"
 
-  },
-  listItemIcon: {
-    color : "white"
   },
 
   chevronRightIcon:{
