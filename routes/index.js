@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('sync-request');
 
 var userModel = require('../models/users');
+var orderModel = require('../models/order')
 
 var SHA256 = require("crypto-js/sha256");
 var encBase64 = require("crypto-js/enc-base64");
@@ -344,5 +345,28 @@ router.post('/load-menu', async function(req, res, next) {
   res.json({ allTable })
 
 });
+
+
+
+/**
+ * Get order infos from BDD
+ */
+router.get('/orderPayed', async function(req, res, next) {
+
+  
+  var order = await orderModel.find()
+
+ 
+  console.log('order in back:', order);
+
+  res.json({ result:true, order: order.orderBDD })
+
+  
+
+});
+
+
+
+
 
 module.exports = router;

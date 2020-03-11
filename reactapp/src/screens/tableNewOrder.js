@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Nav from './nav'
@@ -16,13 +16,12 @@ import Button from '@material-ui/core/Button';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
-
-
 
 
 
@@ -38,9 +37,42 @@ const rows = [
   // createData('Gingerbread', 356, 16.0, 49, 22),
 ];
 
+
+
+
+
+
 function NewOrder() {
+
   const classes = useStyles();
   const theme = useTheme();
+
+  const[order, setOrder] = useState('')
+  const[nameProduct, setNameProduct] = useState('')
+
+
+  useEffect( () => {
+
+    const fetchData = async () => {
+      var response = await fetch("/orderPayed")
+      var orderResponse = response.json()
+      console.log('orderResponse :', orderResponse);
+      setOrder(orderResponse)
+    }
+    fetchData();
+  
+  }, []);
+
+
+  var AcceptOnClick = async() => {
+
+  console.log('click :');
+  console.log('order :', order);
+  
+  
+
+  }
+
 
   return (
     <div style={{display:'flex', marginTop: 80}}>
@@ -91,8 +123,10 @@ function NewOrder() {
                       </TableCell>
 
                       <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}> 
-                        <Button variant="contained" disableElevation  style={{ backgroundColor: '#50bda1',  color:  'white', fontWeight: 'bold'}}>
+                        <Button variant="contained" disableElevation  style={{ backgroundColor: '#50bda1',  color:  'white', fontWeight: 'bold'}}
+                        onClick={() => AcceptOnClick()}>
                         Accepter
+                        
                         </Button>
                       </TableCell>
 
