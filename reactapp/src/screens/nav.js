@@ -105,7 +105,7 @@ function Nav() {
           <Link to="/newtable" >
           <ListItem button key= "organisation" className={classes.listItem}>
             <ListItemIcon  className={classes.listItemIcon} ><SettingsIcon /></ListItemIcon>
-            <ListItemText primary="Gestion des tab" />
+            <ListItemText primary="Gestion des tables" />
           </ListItem>
           </Link>
       </List>

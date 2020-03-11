@@ -76,7 +76,7 @@ function MenuConfig() {
 
       </div>
 
-    {/* <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
+    <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
     <Table aria-label="caption table">
       <TableHead style={{ backgroundColor:  'black', color: 'white'}}>
         <TableRow classeName={classes.titleTable}>
@@ -119,7 +119,7 @@ function MenuConfig() {
        ))}
      </TableBody>
    </Table>
- </TableContainer> */}
+ </TableContainer>
  </div>
  </div>
 
