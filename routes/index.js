@@ -481,7 +481,7 @@ router.post('/new-produit', async function(req, res, next) {
       if (restoBdd && right && position != null && priceWithTva != null) {
         console.log('priceWithTva :', priceWithTva);
         restoBdd.menu[position].products.push(
-          { name: req.body.produitName, price: priceWithTva, tva: parseInt(req.body.produitTVA) }
+          { name: req.body.produitName, price: priceWithTva, quantity: 0, tva: parseInt(req.body.produitTVA) }
         )
         console.log('restoBdd :', restoBdd.menu);
         saveUser = await restoBdd.save();
@@ -589,7 +589,6 @@ router.post('/status', async function(req, res, next) {
 console.log('req.body.status :', req.body.status);
   res.json({ result:true, updateStatus })
   
-
 });
 
 
