@@ -20,30 +20,66 @@ import TableRow from '@material-ui/core/TableRow';
 
 function OrderList(props) {
  
-  var status_EnCours = 'En cours de préparation'
+  const status_Payed = 'Payed'
+  const status_EnCours = 'En cours de préparation'
+  const status_Terminer = 'terminée'
+  var status = ''
   var orderIdToSend = props.orderId
   var statusRecupFromDB = props.status
   var titleButton = 'ACCEPTER'
 
+  const[statusState, setStatusState] = useState('')
+
+  
+  useEffect( () => {
+
+    const fetchData = async () => {
+      console.log('statusRecup useEffect :', statusRecupFromDB);
+
+
+
+    }
+    fetchData();
+  
+  }, []);
+
+
+
+  
+  
 
   var AcceptOnClick = async() => {
 
-    console.log('status :', status_EnCours);
-    console.log('orderId :', orderIdToSend);
+
+   status = status_EnCours
+  
 
     const data = await fetch("/status", {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `orderId=${orderIdToSend}&status=${status_EnCours}`
+      body: `orderId=${orderIdToSend}&status=${status}`
     })
+
+   
+    
   }
 
-  console.log('statusRecupFromDB :', statusRecupFromDB);
+ 
 
-  if (statusRecupFromDB == status_EnCours) {
-    titleButton = 'TERMINER'
-  }
+  var TermineOnClick = async() => {
 
+
+    status = status_Terminer
+   
+     const data = await fetch("/status", {
+       method: 'POST',
+       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+       body: `orderId=${orderIdToSend}&status=${status}`
+     })
+ 
+   }
+ 
+   
 
   var articles = props.panier.map((article) => {
 
@@ -65,12 +101,12 @@ function OrderList(props) {
     <TableBody>
 
       <TableRow style={{backgroundColor: '#fafafa', }}>
-          <TableCell align="center"component="th" scope="row" >{props.orderId.slice(20,24).toUpperCase()}</TableCell>
-          <TableCell align="right"></TableCell>
+          <TableCell align="center"component="th" scope="row">{props.orderId}</TableCell>
+          <TableCell align="right">{statusRecupFromDB}</TableCell>
           <TableCell align="right"></TableCell>
           <TableCell align="right">{props.total} €</TableCell>
           <TableCell align="right">Table 10</TableCell>
-          <TableCell align="center">
+          <TableCell align="right">
             <Button style={{
               backgroundColor:'#4CAF50', 
               color: 'white', 
@@ -85,9 +121,9 @@ function OrderList(props) {
               transitionDuration: 0.4,
               cursor:'pointer'
         
-              
-              }} 
-            onClick={() => AcceptOnClick()}>{titleButton}</Button></TableCell>
+              }} onClick={() => AcceptOnClick()}>ACCEPTER</Button>
+            <Button variant="contained" color="primary" onClick={() => TermineOnClick()}>TERMINER</Button>
+          </TableCell>
       </TableRow>
 
       {articles}

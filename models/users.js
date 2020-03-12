@@ -1,14 +1,15 @@
-var mongoose = require('./connection');
+var mongoose = require('mongoose');
 
 var productSchema = mongoose.Schema({
     name: String,
     price: Number,
-    tva: Number,
+    quantity: Number,
+    tva: Number, 
 });
 
 var menuSchema = mongoose.Schema({
-    category: String,
-    products: [productSchema], 
+    name: String,
+    produits: [productSchema], 
 });
 
 var tableSchema = mongoose.Schema({

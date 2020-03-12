@@ -36,7 +36,7 @@ function NewOrder() {
 
   const classes = useStyles();
   const[orderList, setOrderList] = useState([])
-  const[panier, setPanier] = useState([])
+
 
 
   useEffect( () => {
