@@ -57,7 +57,7 @@ function NavTable(props) {
     console.log('tableData :', tableData);
     var tableList = tableData.map((table,i) => {
       console.log('table.tableName :', table.tableName);
-      return <Table key={i} tableName={table.tableName} tableToken={table.tableToken} tableQrCode={table.tableQrCode} restoToken={props.restoToken} handleClickParent={loadTable} />
+      return <Table key={table.tableName} tableName={table.tableName} tableToken={table.tableToken} tableQrCode={table.tableQrCode} restoToken={props.restoToken} handleClickParent={loadTable} />
     })
   }
   var qrLogo = null;
@@ -67,9 +67,9 @@ function NavTable(props) {
     <div style={{display:'flex', marginTop: 70}}>
        <Nav/>
        <div style={{ display:'flex', flexDirection:'row', flexGrow: 1 , flexWrap: 'wrap'}}>
-       <div className="Sign" style={{color: 'white', fontWeight: 'bold', fontSize: '24', backgroundColor:'#011429'}}>
-       <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="Ajouter une table" />
-        <Button onClick={() => handleSubmitNewTable()}  style={{width:'250px', backgroundColor:'#06C216'}} type="primary">+</Button>
+       <div className="Sign" style={{color: 'white', fontWeight: 'bold', fontSize: '24', backgroundColor:'#011429', width:200}}>
+       <Input style={{width:180}} onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="Ajouter une table" />
+        <Button onClick={() => handleSubmitNewTable()}  style={{width:180, backgroundColor:'#50bda1'}} type="primary">+</Button>
 
 <span style={{marginTop: '10px'}} className="error">{tableNameError}</span>
 
