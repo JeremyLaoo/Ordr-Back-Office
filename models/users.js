@@ -2,8 +2,8 @@ var mongoose = require('./connection');
 
 var productSchema = mongoose.Schema({
     name: String,
-    price: String,
-    tva: Number, 
+    price: Number,
+    tva: Number,
 });
 
 var menuSchema = mongoose.Schema({
