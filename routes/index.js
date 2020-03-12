@@ -429,7 +429,6 @@ router.post('/load-menu', async function(req, res, next) {
 
 });
 
-<<<<<<< HEAD
 // ROUTE POST POUR LA CONFIGURATION DE PRODUIT
 
 router.post('/new-produit', async function(req, res, next) {
@@ -560,7 +559,6 @@ router.post('/delete-produit', async function(req, res, next) {
   res.json({ result, restoBdd, error })
 
 });
-=======
 
 
 /**
@@ -593,10 +591,6 @@ router.post('/status', async function(req, res, next) {
   
 
 });
-
-
-
->>>>>>> 9934d026be6763e3907c8a7a63c67c3919e71248
 
 
 module.exports = router;
