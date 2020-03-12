@@ -9,7 +9,9 @@
     "@ant-design/icons": "^4.0.2",
     "@material-ui/core": "^4.9.5",
     "@sendgrid/mail": "^6.5.3",
+    "antd": "^4.0.2",
     "bcrypt": "^3.0.8",
+    "bootstrap": "^4.4.1",
     "cookie-parser": "~1.4.4",
     "crypto-js": "^4.0.0",
     "debug": "~2.6.9",
@@ -19,6 +21,10 @@
     "mongoose": "^5.8.11",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.2",
+    "react": "^16.13.0",
+    "react-bootstrap": "^1.0.0-beta.17",
+    "react-dom": "^16.13.0",
+    "reactstrap": "^8.4.1",
     "sync-request": "^6.1.0",
     "uid2": "0.0.3"
   }

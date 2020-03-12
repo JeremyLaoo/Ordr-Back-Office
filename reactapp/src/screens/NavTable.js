@@ -64,21 +64,22 @@ function NavTable(props) {
 
   return (
 
-    <div>
-        <Nav/>
-      <div className="Sign">
-                
-          <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="new table name" />
+    <div style={{display:'flex', marginTop: 70}}>
+       <Nav/>
+       <div style={{ display:'flex', flexDirection:'row', flexGrow: 1 , flexWrap: 'wrap'}}>
+       <div className="Sign" style={{color: 'white', fontWeight: 'bold', fontSize: '24', backgroundColor:'#011429'}}>
+       <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="Ajouter une table" />
+        <Button onClick={() => handleSubmitNewTable()}  style={{width:'250px', backgroundColor:'#06C216'}} type="primary">+</Button>
 
-          <Button onClick={() => handleSubmitNewTable()}  style={{width:'80px'}} type="primary">+</Button>
+<span style={{marginTop: '10px'}} className="error">{tableNameError}</span>
 
-          <span style={{marginTop: '10px'}} className="error">{tableNameError}</span>
+</div>
 
-      </div>
+{tableList}
 
-      {tableList}
+  </div>
 
-    </div>
+ </div>
 
   );
 }
