@@ -66,7 +66,7 @@ function Table(props) {
 
     return (
 
-        <div className="Sign" style={{display: 'flex'}}>
+        <div className="Sign" style={{display: 'flex', backgroundColor:'#50bda1'}}>
 
             <Input onChange={(e) => setChangeTableName(e.target.value)} className="Login-input" value={changeTableName} disabled={disabled} />
 

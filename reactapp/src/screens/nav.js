@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -30,7 +31,7 @@ const drawerWidth = 260;
 function Nav() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -45,6 +46,8 @@ function Nav() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        width="100%"
+        display="flex"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -61,9 +64,7 @@ function Nav() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" style={{display:'flex', marginLeft: 750}} noWrap>
-            Gestion des commandes
-          </Typography>
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -80,28 +81,37 @@ function Nav() {
       }}
     >
       <div className={classes.toolbar}>
+        
         <IconButton onClick={handleDrawerClose} className={classes.chevronRightIcon}>
+        <img src="./images/Logo.png" width="100" height="60" style={{ marginRight: 60}} />
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </div>
-    
+      
       <List className={classes.listToolbar}>
-          <ListItem button key= "order">
-            <ListItemIcon className={classes.listItemIcon} > <ListAltIcon /></ListItemIcon>
+        
+          <Link to="/neworder">
+          <ListItem button key= "order" className={classes.listItem}>
+            <ListItemIcon > <ListAltIcon style={{ fontSize: 50, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des commandes" />
           </ListItem>
-    
-          <ListItem button key="menu">
-            <ListItemIcon className={classes.listItemIcon}> <RestaurantMenuTwoToneIcon /> </ListItemIcon>
+          </Link>
+
+          <Link to="/newtable" >
+          <ListItem button key="menu" className={classes.listItem}>
+            <ListItemIcon > <RestaurantMenuTwoToneIcon style={{ fontSize: 50, color: 'white' }} /> </ListItemIcon>
             <ListItemText primary="Gestion du menu" />
           </ListItem>
-
+          </Link>
         
-          <ListItem button key= "organisation">
-            <ListItemIcon  className={classes.listItemIcon}><SettingsIcon /></ListItemIcon>
+          <Link to="/newtable" >
+          <ListItem button key= "organisation" className={classes.listItem}>
+            <ListItemIcon  ><SettingsIcon style={{ fontSize: 50, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des tables" />
           </ListItem>
+          </Link>
       </List>
+
     </Drawer>
     </div>
   );
@@ -116,7 +126,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appBar: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011329',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -131,11 +141,15 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  logo: {
+    marginLeft: 670,
+    backgroundColor: 'transparent'
+  },
   menuButton: {
     marginRight: 36,
   },
   hide: {
-    backgroundColor: '#152228',
+    backgroundColor: 'pink',
     display: 'none',
   },
   drawer: {
@@ -145,7 +159,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011329',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -153,7 +167,8 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   drawerClose: {
-    backgroundColor: '#152228',
+    backgroundColor: '#011329',
+    backgroundOpacity: 20,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -178,23 +193,29 @@ const useStyles = makeStyles(theme => ({
   },
   titleTable:{
     fontWeight: 'bold',
-    color: 'black'
+    color: '#011429'
   },
   listToolbar:{
-    marginTop: 30,
     color : "white",
   },
-  listItemIcon: {
-    height:  40,
+  listItem: {
+    marginTop: 30,
+    height:  60,
     color : "white"
 
   },
+
   chevronRightIcon:{
     color: "white",
   },
   title:{
     marginLeft :  720 
+  },
+  link:{
+    color : 'white',
+    fontSize:  '24'
   }
+
 
 }));
 

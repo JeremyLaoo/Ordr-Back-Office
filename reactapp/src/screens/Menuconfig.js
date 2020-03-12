@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect}  from 'react';
 import {Link, Redirect} from 'react-router-dom'
+import {Input,Button} from 'antd'
 import {connect} from 'react-redux'
 import Nav from './nav'
 import NavOrder  from  './navOrders'
@@ -12,8 +13,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 
 
 const useStyles = makeStyles({
@@ -38,9 +40,24 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 22),
 ];
 
-function NewOrder() {
+function MenuConfig() {
   const classes = useStyles();
   const theme = useTheme();
+  const [categoryName, setCategoryName] = useState('');
+
+
+
+  var handleSubmitNewCategory = async () => {
+
+  let data = await fetch('/new-categorie', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: `categoryName=${categoryName}`
+  })
+  var response = await data.json()
+}
+
+  
 
   return (
     <div style={{display:'flex', marginTop: 70}}>
@@ -48,12 +65,22 @@ function NewOrder() {
        <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 }}>
        <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 }}>
       <NavOrder />
-      </div><div>
+      </div>
+      <div className="Sign">
+                
+          <Input onChange={(e) => setCategoryName(e.target.value)} className="Login-input" value={categoryName} placeholder="new table name" />
+
+          <Button onClick={() => handleSubmitNewCategory()}  style={{width:'80px'}} type="primary">+</Button>
+
+          <span style={{marginTop: '10px'}} className="error"></span>
+
+      </div>
+
     <TableContainer component={Paper}  style={{ flexGrow: 1, padding: theme.spacing(3) }} >
     <Table aria-label="caption table">
       <TableHead style={{ backgroundColor:  'black', color: 'white'}}>
         <TableRow classeName={classes.titleTable}>
-          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Q42</TableCell>
+          <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">N° de commande</TableCell>
           <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Quantité </TableCell>
           <TableCell style={{color: 'white',  fontWeight: 'bold', fontSize: '24'}} align="left">Prix total</TableCell>
           <TableCell style={{color: 'white', fontWeight: 'bold', fontSize: '24'}} align="left">Timer</TableCell>
@@ -86,9 +113,8 @@ function NewOrder() {
            <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>{row.fat}</TableCell>
            <TableCell align="center"style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>{row.carbs}</TableCell>
            <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}>{row.protein}</TableCell>
-           <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}> <Button variant="contained" disableElevation  style={{ backgroundColor: '#06C216',  color:  'white', fontWeight: 'bold'}}>
-   Accepter
- </Button></TableCell>
+           <TableCell align="center" style={{ verticalAlign: 'top', fontSize: 22, fontWeight: 'Bold'}}> 
+ </TableCell>
          </TableRow>
        ))}
      </TableBody>
@@ -96,12 +122,12 @@ function NewOrder() {
  </TableContainer>
  </div>
  </div>
- </div>
+
   );
 }
 
+export default MenuConfig;
 
 
 
 
-export default NewOrder;

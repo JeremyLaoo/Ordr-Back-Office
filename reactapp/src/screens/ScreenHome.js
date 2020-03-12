@@ -80,7 +80,7 @@ function ScreenHome(props) {
 
   if (isLogin) {
     return (
-      <Redirect to='/newmenu' />
+      <Redirect to='/neworder' />
     );
 
   } else {

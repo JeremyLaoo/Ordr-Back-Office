@@ -3,7 +3,7 @@ import {Input,Button} from 'antd';
 import {connect} from 'react-redux';
 
 import { FaQrcode } from 'react-icons/fa';
-
+import Nav from './nav'
 import Table from '../components/Table'
 
 import './App.css';
@@ -64,21 +64,22 @@ function NavTable(props) {
 
   return (
 
-    <div>
+    <div style={{display:'flex', marginTop: 70}}>
+       <Nav/>
+       <div style={{ display:'flex', flexDirection:'row', flexGrow: 1 , flexWrap: 'wrap'}}>
+       <div className="Sign" style={{color: 'white', fontWeight: 'bold', fontSize: '24', backgroundColor:'#011429'}}>
+       <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="Ajouter une table" />
+        <Button onClick={() => handleSubmitNewTable()}  style={{width:'250px', backgroundColor:'#06C216'}} type="primary">+</Button>
 
-      <div className="Sign">
-                
-          <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="new table name" />
+<span style={{marginTop: '10px'}} className="error">{tableNameError}</span>
 
-          <Button onClick={() => handleSubmitNewTable()}  style={{width:'80px'}} type="primary">+</Button>
+</div>
 
-          <span style={{marginTop: '10px'}} className="error">{tableNameError}</span>
+{tableList}
 
-      </div>
+  </div>
 
-      {tableList}
-
-    </div>
+ </div>
 
   );
 }

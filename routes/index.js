@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('sync-request');
 
 var userModel = require('../models/users');
+var orderModel = require('../models/order')
 
 var SHA256 = require("crypto-js/sha256");
 var encBase64 = require("crypto-js/enc-base64");
@@ -428,6 +429,7 @@ router.post('/load-menu', async function(req, res, next) {
 
 });
 
+<<<<<<< HEAD
 // ROUTE POST POUR LA CONFIGURATION DE PRODUIT
 
 router.post('/new-produit', async function(req, res, next) {
@@ -558,6 +560,29 @@ router.post('/delete-produit', async function(req, res, next) {
   res.json({ result, restoBdd, error })
 
 });
+=======
+
+
+/**
+ * Get order infos from BDD
+ */
+router.get('/orderPayed', async function(req, res, next) {
+
+  
+  var order = await orderModel.find()
+
+ 
+  console.log('order in back:', order);
+
+  res.json({ result:true, order: order.orderBDD })
+
+  
+
+});
+
+
+
+>>>>>>> 9934d026be6763e3907c8a7a63c67c3919e71248
 
 
 module.exports = router;

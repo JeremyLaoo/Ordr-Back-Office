@@ -10,7 +10,8 @@ import ScreenSuccess from './screens/ScreenSuccess';
 import NewOrder from './screens/tableNewOrder';
 import OldOrder from './screens/tableOldOrder';
 import NavTable from './screens/NavTable';
-import NavMenu from './screens/NavMenu';
+import MenuConfig from './screens/Menuconfig'
+import Test from './screens/test'
 
 /**
  * Import redux
@@ -42,12 +43,12 @@ function App() {
 
       <Router>
         <Switch>
-          <Route component={ScreenHome} path="/" exact />
+          <Route component={Test} path="/" exact />
           <PrivateRoute component={ScreenSuccess} path="/screensuccess" exact />
           <PrivateRoute component={NewOrder} path="/neworder" exact />
           <PrivateRoute component={OldOrder} path="/oldorder" exact />
           <PrivateRoute component={NavTable} path="/newtable" exact />
-          <PrivateRoute component={NavMenu} path="/newmenu" exact />
+          <PrivateRoute component={MenuConfig} path="/menuconfig" exact />
         </Switch>
       </Router>
 
