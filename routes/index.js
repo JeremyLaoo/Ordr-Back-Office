@@ -135,6 +135,8 @@ router.post('/sign-in', async function(req, res, next) {
 
 });
 
+// ROUTE POST POUR LA CONFIGURATION DE LA TABLE
+
 router.post('/new-table', async function(req, res, next) {
 
   var error = [];
@@ -288,17 +290,17 @@ router.post('/load-table', async function(req, res, next) {
 
 });
 
+// ROUTE POST POUR LA CONFIGURATION DU MENU
+
 router.post('/new-menu', async function(req, res, next) {
 
   var error = [];
   var result = false;
-  var userBdd = null;
   var saveUser = null;
-  var qrCodeTable = null;
 
   // Gestion des erreurs
 
-  if (req.body.menuName == '') {
+  if (req.body.categorieName == '') {
       error.push('Champ vide')
   } else {
 
@@ -306,26 +308,107 @@ router.post('/new-menu', async function(req, res, next) {
 
       var right = true;
 
-    //   for (let j = 0; j < restoBdd.table.length; j++) {
-    //     if (restoBdd.table[j].tableName == req.body.tableName) {
-    //       right = false;
-    //       break;
-    //     }
-    //   }
+      for (let j = 0; j < restoBdd.menu.length; j++) {
+        if (restoBdd.menu[j].category == req.body.categorieName) {
+          right = false;
+          break;
+        }
+      }
 
-    //   if (restoBdd && right) {
-    //     restoBdd.table.push(
-    //       { tableName: req.body.tableName, tableToken: tokenTable, tableQrCode: 'none' }
-    //     )
-    //     qrCodeTable = restoBdd.token + '/' + tokenTable;
-    //     saveUser = await restoBdd.save();
-    //     result = true;
-    //   }
+      if (restoBdd && right) {
+        restoBdd.menu.push(
+          { category: req.body.categorieName, products: [] }
+        )
+        console.log('restoBdd :', restoBdd.menu);
+        saveUser = await restoBdd.save();
+        result = true;
+      }
+
     }
 
   // Envoie des informations importantes vers le front-end
 
-  res.json({ result, restoBdd, error, qrCodeTable, saveUser })
+  res.json({ result, restoBdd, error, saveUser })
+
+});
+
+router.post('/delete-menu', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var restoBdd = null;
+
+  var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+  if (restoBdd == undefined) {
+    error.push('Fatal Error : Restorant introuvable')
+  } else {
+
+    var position = null;
+
+    for (var j = 0; j < restoBdd.menu.length; j++) {
+      if (restoBdd.menu[j].category == req.body.catgorieName) {
+        position = j;
+        break;
+      }
+    }
+
+    restoBdd.menu.splice(position, 1)
+
+    saveUser = await restoBdd.save();
+
+    result = true;
+  }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error })
+
+});
+
+router.post('/update-menu', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var restoBdd = null;
+  var nameExist = false;
+
+  // Gestion des erreurs
+
+  if (req.body.newCategorieName == '') {
+      error.push('Champ vide');
+  } else {
+
+      var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+      var position = null;
+      var idSd = null;
+
+      for (var j = 0; j < restoBdd.menu.length; j++) {
+        if (restoBdd.menu[j].category == req.body.categorieName) {
+          position = j;
+          idSd = restoBdd.menu[j]._id;
+          break;
+        }
+      }
+
+      for (let i = 0; i < restoBdd.menu.length; i++) {
+        if (i != j && restoBdd.menu[i].category == req.body.newCategorieName) {
+          error.push('Nom déjà existant')
+          nameExist = true;
+        }
+      }
+
+      if (!nameExist) {
+        restoBdd.menu[position].category = req.body.newCategorieName;
+        saveUser = await restoBdd.save();
+        result = true;
+      }
+
+    }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error })
 
 });
 
@@ -334,18 +417,150 @@ router.post('/load-menu', async function(req, res, next) {
   var allMenu = null;
   var restoBdd = await userModel.findOne({ token: req.body.restoToken })
 
-  console.log('restoBdd :', restoBdd);
-
   if (restoBdd) {
     allMenu = restoBdd.menu;
   }
 
+  console.log('allMenu :', allMenu);
+
   // Envoie des informations importantes vers le front-end
 
-  res.json({ allTable })
+  res.json({ allMenu })
 
 });
 
+<<<<<<< HEAD
+// ROUTE POST POUR LA CONFIGURATION DE PRODUIT
+
+router.post('/new-produit', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var saveUser = null;
+
+  // Gestion des erreurs
+  console.log('req.body :', req.body);
+  console.log('req.body.produitTVA :', req.body.produitTVA);
+  console.log('req.body.produitTVA PARSE :', parseInt(req.body.produitTVA));
+
+  if (req.body.produitName == '' || req.body.produitPrice == undefined || req.body.produitTVA == undefined) {
+      error.push('Champ(s) vide(s)');
+  } else {
+
+      var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+      var right = true;
+
+      for (let k = 0; k < restoBdd.menu.length; k++) {
+        for (let j = 0; j < restoBdd.menu[k].products.length; j++) {
+          console.log('restoBdd.menu[k].products[j] :', restoBdd.menu[k].products[j]);
+          if (restoBdd.menu[k].products[j].name == req.body.produitName) {
+            right = false;
+            console.log('restoBdd.menu[k].products[j].name :', restoBdd.menu[k].products[j].name);
+            error.push('Nom déjà existant')
+            break;
+          }
+        }
+      }
+
+      var position = null;
+
+      for (let i = 0; i < restoBdd.menu.length; i++) {
+        if (restoBdd.menu[i].category == req.body.categorieName) {
+          position = i;
+          break;
+        }
+      }
+
+      var priceWithTva = null;
+
+      if (req.body.produitTVA >= 0 && req.body.produitTVA <= 100) {
+        priceWithTva = parseInt(req.body.produitPrice) + ((parseInt(req.body.produitPrice) * parseInt(req.body.produitTVA))/100)
+      } else
+        error.push('Veuillez rentrez un nombre entre 0 et 100 pour la tva');
+
+      if (restoBdd && right && position != null && priceWithTva != null) {
+        console.log('priceWithTva :', priceWithTva);
+        restoBdd.menu[position].products.push(
+          { name: req.body.produitName, price: priceWithTva, tva: parseInt(req.body.produitTVA) }
+        )
+        console.log('restoBdd :', restoBdd.menu);
+        saveUser = await restoBdd.save();
+        result = true;
+      }
+
+    }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error, saveUser })
+
+});
+
+router.post('/load-produit', async function(req, res, next) {
+
+  var position = null;
+  var allProduit = null;
+  var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+  if (restoBdd) {
+    dataProduit = restoBdd.menu;
+  }
+
+  for (let l = 0; l < restoBdd.menu.length; l++) {
+    if (restoBdd.menu[l].category == req.body.categorieName) {
+      position = l;
+      break;
+    }
+  }
+
+  var allProduit = restoBdd.menu[position].products;
+
+  console.log('allProduit :', allProduit);
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ allProduit })
+
+});
+
+router.post('/delete-produit', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var restoBdd = null;
+
+  var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+  if (restoBdd == undefined) {
+    error.push('Fatal Error : Restorant introuvable')
+  } else {
+
+    var position = null;
+
+    for (var j = 0; j < restoBdd.menu.length; j++) {
+      if (restoBdd.menu[j].category == req.body.categorieName) {
+        for (let z = 0; z < restoBdd.menu[j].products.length; z++) {
+          if (restoBdd.menu[j].products[z].name == req.body.produitName) {
+            restoBdd.menu[j].products.splice(z, 1);
+          }
+        }
+      }
+    }
+
+    // restoBdd.menu.splice(position, 1)
+
+    saveUser = await restoBdd.save();
+
+    result = true;
+  }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error })
+
+});
+=======
 
 
 /**
@@ -381,6 +596,7 @@ router.post('/status', async function(req, res, next) {
 
 
 
+>>>>>>> 9934d026be6763e3907c8a7a63c67c3919e71248
 
 
 module.exports = router;
