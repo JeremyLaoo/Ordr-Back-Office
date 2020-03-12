@@ -7,57 +7,53 @@ import { FaQrcode } from 'react-icons/fa';
 import Table from '../components/Table'
 
 import './App.css';
+import Categorie from '../components/Categorie';
 
 function NavTable(props) {
 
-  const [tableName, setTableName] = useState('');
-  const [tableNameError, setTableNameError] = useState('');
-  const [qrCodeLogo, setQrCodeLogo] = useState();
-  const [tableData, setTableData] = useState();
+  const [categorieName, setCategorieName] = useState('');
+  const [CategorieNameError, setCategorieNameError] = useState('');
+  const [categorieData, setCategorieData] = useState();
 
   var handleSubmitNewTable = async () => {
 
-      let data = await fetch('/new-table', {
+      let data = await fetch('/new-menu', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `tableName=${tableName}&restoToken=${props.restoToken}`
+        body: `categorieName=${categorieName}&restoToken=${props.restoToken}`
       })
       var response = await data.json()
 
       if (response.result) {
-        setQrCodeLogo(<FaQrcode style={{cursor: 'pointer'}} />);
-        setTableName('');
+        setCategorieName('');
       } else {
-        setTableNameError(response.error[0]);
+        setCategorieNameError(response.error[0]);
         console.log('not working');
       }
 
-      loadTable();
+      loadCategorie();
   }
 
   useEffect(() => {
-    loadTable();
+    loadCategorie();
   }, []);
 
-  var loadTable = async () => {
-    const dataTable = await fetch('/load-table', {
+  var loadCategorie = async () => {
+    const dataTable = await fetch('/load-menu', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: `restoToken=${props.restoToken}`
     })
     var myResponse = await dataTable.json();
 
-    if (myResponse.allTable !== undefined) {
-      console.log('myResponse.allTable :', myResponse.allTable);
-      setTableData(myResponse.allTable)
+    if (myResponse.allMenu !== undefined) {
+      setCategorieData(myResponse.allMenu)
     }
   }
 
-  if (tableData) {
-    console.log('tableData :', tableData);
-    var tableList = tableData.map((table,i) => {
-      console.log('table.tableName :', table.tableName);
-      return <Table key={i} tableName={table.tableName} tableToken={table.tableToken} tableQrCode={table.tableQrCode} restoToken={props.restoToken} handleClickParent={loadTable} />
+  if (categorieData) {
+    var categorieList = categorieData.map((categorie,i) => {
+      return <Categorie key={i} categorieName={categorie.category} categorieProducts={categorie.products} restoToken={props.restoToken} handleClickParent={loadCategorie} />
     })
   }
   var qrLogo = null;
@@ -68,15 +64,15 @@ function NavTable(props) {
 
       <div className="Sign">
                 
-          <Input onChange={(e) => setTableName(e.target.value)} className="Login-input" value={tableName} placeholder="new table name" />
+          <Input onChange={(e) => setCategorieName(e.target.value)} className="Login-input" value={categorieName} placeholder="new categorie name" />
 
           <Button onClick={() => handleSubmitNewTable()}  style={{width:'80px'}} type="primary">+</Button>
 
-          <span style={{marginTop: '10px'}} className="error">{tableNameError}</span>
+          <span style={{marginTop: '10px'}} className="error">{CategorieNameError}</span>
 
       </div>
 
-      {tableList}
+      {categorieList}
 
     </div>
 
