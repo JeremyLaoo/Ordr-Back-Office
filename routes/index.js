@@ -134,6 +134,8 @@ router.post('/sign-in', async function(req, res, next) {
 
 });
 
+// ROUTE POST POUR LA CONFIGURATION DE LA TABLE
+
 router.post('/new-table', async function(req, res, next) {
 
   var error = [];
@@ -287,17 +289,17 @@ router.post('/load-table', async function(req, res, next) {
 
 });
 
+// ROUTE POST POUR LA CONFIGURATION DU MENU
+
 router.post('/new-menu', async function(req, res, next) {
 
   var error = [];
   var result = false;
-  var userBdd = null;
   var saveUser = null;
-  var qrCodeTable = null;
 
   // Gestion des erreurs
 
-  if (req.body.menuName == '') {
+  if (req.body.categorieName == '') {
       error.push('Champ vide')
   } else {
 
@@ -305,26 +307,107 @@ router.post('/new-menu', async function(req, res, next) {
 
       var right = true;
 
-    //   for (let j = 0; j < restoBdd.table.length; j++) {
-    //     if (restoBdd.table[j].tableName == req.body.tableName) {
-    //       right = false;
-    //       break;
-    //     }
-    //   }
+      for (let j = 0; j < restoBdd.menu.length; j++) {
+        if (restoBdd.menu[j].category == req.body.categorieName) {
+          right = false;
+          break;
+        }
+      }
 
-    //   if (restoBdd && right) {
-    //     restoBdd.table.push(
-    //       { tableName: req.body.tableName, tableToken: tokenTable, tableQrCode: 'none' }
-    //     )
-    //     qrCodeTable = restoBdd.token + '/' + tokenTable;
-    //     saveUser = await restoBdd.save();
-    //     result = true;
-    //   }
+      if (restoBdd && right) {
+        restoBdd.menu.push(
+          { category: req.body.categorieName, products: [] }
+        )
+        console.log('restoBdd :', restoBdd.menu);
+        saveUser = await restoBdd.save();
+        result = true;
+      }
+
     }
 
   // Envoie des informations importantes vers le front-end
 
-  res.json({ result, restoBdd, error, qrCodeTable, saveUser })
+  res.json({ result, restoBdd, error, saveUser })
+
+});
+
+router.post('/delete-menu', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var restoBdd = null;
+
+  var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+  if (restoBdd == undefined) {
+    error.push('Fatal Error : Restorant introuvable')
+  } else {
+
+    var position = null;
+
+    for (var j = 0; j < restoBdd.menu.length; j++) {
+      if (restoBdd.menu[j].category == req.body.catgorieName) {
+        position = j;
+        break;
+      }
+    }
+
+    restoBdd.menu.splice(position, 1)
+
+    saveUser = await restoBdd.save();
+
+    result = true;
+  }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error })
+
+});
+
+router.post('/update-menu', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var restoBdd = null;
+  var nameExist = false;
+
+  // Gestion des erreurs
+
+  if (req.body.newCategorieName == '') {
+      error.push('Champ vide');
+  } else {
+
+      var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+      var position = null;
+      var idSd = null;
+
+      for (var j = 0; j < restoBdd.menu.length; j++) {
+        if (restoBdd.menu[j].category == req.body.categorieName) {
+          position = j;
+          idSd = restoBdd.menu[j]._id;
+          break;
+        }
+      }
+
+      for (let i = 0; i < restoBdd.menu.length; i++) {
+        if (i != j && restoBdd.menu[i].category == req.body.newCategorieName) {
+          error.push('Nom déjà existant')
+          nameExist = true;
+        }
+      }
+
+      if (!nameExist) {
+        restoBdd.menu[position].category = req.body.newCategorieName;
+        saveUser = await restoBdd.save();
+        result = true;
+      }
+
+    }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error })
 
 });
 
@@ -333,16 +416,99 @@ router.post('/load-menu', async function(req, res, next) {
   var allMenu = null;
   var restoBdd = await userModel.findOne({ token: req.body.restoToken })
 
-  console.log('restoBdd :', restoBdd);
-
   if (restoBdd) {
     allMenu = restoBdd.menu;
   }
 
+  console.log('allMenu :', allMenu);
+
   // Envoie des informations importantes vers le front-end
 
-  res.json({ allTable })
+  res.json({ allMenu })
 
 });
+
+// ROUTE POST POUR LA CONFIGURATION DE PRODUIT
+
+router.post('/new-produit', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var saveUser = null;
+
+  // Gestion des erreurs
+
+  if (req.body.produitName == '') {
+      error.push('Champ vide')
+  } else {
+
+      var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+      var right = true;
+
+      for (let k = 0; k < restoBdd.menu.length; k++) {
+        for (let j = 0; j < restoBdd.menu[k].products.length; j++) {
+          if (restoBdd.menu[k].products[j].name == req.body.produitName) {
+            right = false;
+            break;
+          }
+        }
+      }
+
+      var position = null;
+
+      for (let i = 0; i < restoBdd.menu.length; i++) {
+        console.log('restoBdd.menu[i].category :', restoBdd.menu[i].category);
+        console.log('req.body.categorieName :', req.body.categorieName);
+        if (restoBdd.menu[i].category == req.body.categorieName) {
+          position = i;
+          break;
+        }
+      }
+
+      if (restoBdd && right && position != null) {
+        restoBdd.menu[position].products.push(
+          { name: req.body.produitName, price: req.body.produitPrice, tva: ((req.body.produitPrice*20)/100) }
+        )
+        console.log('restoBdd :', restoBdd.menu);
+        saveUser = await restoBdd.save();
+        result = true;
+      }
+
+    }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error, saveUser })
+
+});
+
+router.post('/load-produit', async function(req, res, next) {
+
+  var position = null;
+  var allProduit = null;
+  var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+  if (restoBdd) {
+    dataProduit = restoBdd.menu;
+  }
+
+  for (let l = 0; l < restoBdd.menu.length; l++) {
+    if (restoBdd.menu[l].category == req.body.categorieName) {
+      position = l;
+      break;
+    }
+  }
+
+  var allProduit = restoBdd.menu[position].products;
+
+  console.log('allProduit :', allProduit);
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ allProduit })
+
+});
+
 
 module.exports = router;
