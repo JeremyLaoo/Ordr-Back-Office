@@ -3,7 +3,7 @@ var mongoose = require('./connection');
 var productSchema = mongoose.Schema({
     name: String,
     price: Number,
-    tva: Number, 
+    tva: Number,
 });
 
 var menuSchema = mongoose.Schema({

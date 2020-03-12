@@ -75,17 +75,17 @@ function Produit(props) {
 
     var deleteElement = async () => {
 
-        // let data = await fetch('/delete-produit', {
-        //     method: 'POST',
-        //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        //     body: `produitName=${changeProduitName}&restoToken=${props.restoToken}`
-        //   })
-        //   var response = await data.json()
+        let data = await fetch('/delete-produit', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `produitName=${changeProduitName}&categorieName=${props.categorieName}&restoToken=${props.restoToken}`
+          })
+          var response = await data.json()
     
-        //   if (response.result) {
-        //       setDeleteSuccessMsg('Element supprimé');
-        //       props.handleClickParent();
-        //   }
+          if (response.result) {
+              setDeleteSuccessMsg('Element supprimé');
+              props.handleClickParent();
+          }
 
     }
 

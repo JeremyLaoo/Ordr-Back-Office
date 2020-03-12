@@ -437,9 +437,12 @@ router.post('/new-produit', async function(req, res, next) {
   var saveUser = null;
 
   // Gestion des erreurs
+  console.log('req.body :', req.body);
+  console.log('req.body.produitTVA :', req.body.produitTVA);
+  console.log('req.body.produitTVA PARSE :', parseInt(req.body.produitTVA));
 
-  if (req.body.produitName == '') {
-      error.push('Champ vide')
+  if (req.body.produitName == '' || req.body.produitPrice == undefined || req.body.produitTVA == undefined) {
+      error.push('Champ(s) vide(s)');
   } else {
 
       var restoBdd = await userModel.findOne({ token: req.body.restoToken })
@@ -448,8 +451,11 @@ router.post('/new-produit', async function(req, res, next) {
 
       for (let k = 0; k < restoBdd.menu.length; k++) {
         for (let j = 0; j < restoBdd.menu[k].products.length; j++) {
+          console.log('restoBdd.menu[k].products[j] :', restoBdd.menu[k].products[j]);
           if (restoBdd.menu[k].products[j].name == req.body.produitName) {
             right = false;
+            console.log('restoBdd.menu[k].products[j].name :', restoBdd.menu[k].products[j].name);
+            error.push('Nom déjà existant')
             break;
           }
         }
@@ -458,17 +464,23 @@ router.post('/new-produit', async function(req, res, next) {
       var position = null;
 
       for (let i = 0; i < restoBdd.menu.length; i++) {
-        console.log('restoBdd.menu[i].category :', restoBdd.menu[i].category);
-        console.log('req.body.categorieName :', req.body.categorieName);
         if (restoBdd.menu[i].category == req.body.categorieName) {
           position = i;
           break;
         }
       }
 
-      if (restoBdd && right && position != null) {
+      var priceWithTva = null;
+
+      if (req.body.produitTVA >= 0 && req.body.produitTVA <= 100) {
+        priceWithTva = parseInt(req.body.produitPrice) + ((parseInt(req.body.produitPrice) * parseInt(req.body.produitTVA))/100)
+      } else
+        error.push('Veuillez rentrez un nombre entre 0 et 100 pour la tva');
+
+      if (restoBdd && right && position != null && priceWithTva != null) {
+        console.log('priceWithTva :', priceWithTva);
         restoBdd.menu[position].products.push(
-          { name: req.body.produitName, price: req.body.produitPrice, tva: ((req.body.produitPrice*20)/100) }
+          { name: req.body.produitName, price: priceWithTva, tva: parseInt(req.body.produitTVA) }
         )
         console.log('restoBdd :', restoBdd.menu);
         saveUser = await restoBdd.save();
@@ -507,6 +519,43 @@ router.post('/load-produit', async function(req, res, next) {
   // Envoie des informations importantes vers le front-end
 
   res.json({ allProduit })
+
+});
+
+router.post('/delete-produit', async function(req, res, next) {
+
+  var error = [];
+  var result = false;
+  var restoBdd = null;
+
+  var restoBdd = await userModel.findOne({ token: req.body.restoToken })
+
+  if (restoBdd == undefined) {
+    error.push('Fatal Error : Restorant introuvable')
+  } else {
+
+    var position = null;
+
+    for (var j = 0; j < restoBdd.menu.length; j++) {
+      if (restoBdd.menu[j].category == req.body.categorieName) {
+        for (let z = 0; z < restoBdd.menu[j].products.length; z++) {
+          if (restoBdd.menu[j].products[z].name == req.body.produitName) {
+            restoBdd.menu[j].products.splice(z, 1);
+          }
+        }
+      }
+    }
+
+    // restoBdd.menu.splice(position, 1)
+
+    saveUser = await restoBdd.save();
+
+    result = true;
+  }
+
+  // Envoie des informations importantes vers le front-end
+
+  res.json({ result, restoBdd, error })
 
 });
 

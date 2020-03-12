@@ -16,6 +16,7 @@ function Categorie(props) {
     //Produit Management
     const [produitName, setProduitName] = useState('');
     const [produitPrice, setProduitPrice] = useState();
+    const [produitTVA, setProduitTVA] = useState();
     const [produitNameError, setProduitNameError] = useState('');
     const [produitData, setProduitData] = useState(null);
 
@@ -35,12 +36,14 @@ function Categorie(props) {
         let data = await fetch('/new-produit', {
           method: 'POST',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          body: `produitName=${produitName}&produitPrice=${produitPrice}&categorieName=${changeCategorieName}&restoToken=${props.restoToken}`
+          body: `produitName=${produitName}&produitPrice=${produitPrice}&produitTVA=${produitTVA}&categorieName=${changeCategorieName}&restoToken=${props.restoToken}`
         })
         var response = await data.json()
   
         if (response.result) {
           setProduitName('');
+          setProduitPrice();
+          setProduitTVA();
         } else {
             setProduitNameError(response.error[0]);
           console.log('not working');
@@ -68,7 +71,7 @@ function Categorie(props) {
 
       if (produitData) {
         var produitList = produitData.map((produit,i) => {
-            return <Produit key={i} produitName={produit.name} produitPrice={produit.price} produitTVA={produit.tva} restoToken={props.restoToken} handleClickParent={loadProduit} categorieName={changeCategorieName} />
+            return <Produit key={i} produitName={produit.name} produitPrice={produit.price} produitTVA={produit.tva} categorieName={changeCategorieName} restoToken={props.restoToken} handleClickParent={loadProduit} />
         })
       }
 
@@ -152,7 +155,7 @@ function Categorie(props) {
         
                     <Input onChange={(e) => setProduitPrice(e.target.value)} className="Login-input" value={produitPrice} placeholder="price" />
 
-                    {/* <Input onChange={(e) => setProduitPrice(e.target.value)} className="Login-input" value={produitPrice} placeholder="price" /> */}
+                    <Input onChange={(e) => setProduitTVA(e.target.value)} className="Login-input" value={produitTVA} placeholder="0-100 TVA (in pourcent %)" />
 
                     <Button onClick={() => handleSubmitNewProduit()}  style={{width:'80px'}} type="primary">+</Button>
         
