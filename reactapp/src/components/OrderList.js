@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Button } from 'reactstrap';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+
 
 /**
  * import components
@@ -94,7 +95,7 @@ function OrderList(props) {
 
 
   return (
-
+  
     <TableBody>
 
       <TableRow style={{backgroundColor: '#fafafa', }}>
@@ -104,7 +105,21 @@ function OrderList(props) {
           <TableCell align="right">{props.total} €</TableCell>
           <TableCell align="right">Table 10</TableCell>
           <TableCell align="right">
-            <Button variant="contained" color="primary" onClick={() => AcceptOnClick()}>ACCEPTER</Button>
+            <Button style={{
+              backgroundColor:'#4CAF50', 
+              color: 'white', 
+              border:0, 
+              borderRadius:10, 
+              paddingTop: 15, 
+              paddingBottom:15, 
+              paddingLeft:30, 
+              paddingRight:30, 
+              textAlign: 'center', 
+              fontSize:16,
+              transitionDuration: 0.4,
+              cursor:'pointer'
+        
+              }} onClick={() => AcceptOnClick()}>ACCEPTER</Button>
             <Button variant="contained" color="primary" onClick={() => TermineOnClick()}>TERMINER</Button>
           </TableCell>
       </TableRow>
@@ -112,6 +127,7 @@ function OrderList(props) {
       {articles}
 
     </TableBody>
+  
 
   
   );
