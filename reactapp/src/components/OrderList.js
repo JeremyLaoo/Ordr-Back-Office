@@ -15,8 +15,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 
-
-
 function OrderList(props) {
  
   const status_Payed = 'Payed'
