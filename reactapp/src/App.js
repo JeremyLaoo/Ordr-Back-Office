@@ -12,7 +12,6 @@ import OldOrder from './screens/tableOldOrder';
 import NavTable from './screens/NavTable';
 import MenuConfig from './screens/Menuconfig';
 import NavMenu from './screens/NavMenu';
-import Test from './screens/test'
 
 
 /**
@@ -45,7 +44,7 @@ function App() {
 
       <Router>
         <Switch>
-          <Route component={ScreenHome} path="/" exact />
+          <Route component={NewOrder} path="/" exact />
           <PrivateRoute component={ScreenSuccess} path="/screensuccess" exact />
           <PrivateRoute component={NewOrder} path="/neworder" exact />
           <PrivateRoute component={OldOrder} path="/oldorder" exact />

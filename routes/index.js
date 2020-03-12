@@ -584,9 +584,9 @@ router.post('/status', async function(req, res, next) {
   
   var updateStatus = await orderModel.updateOne(
     { _id: req.body.orderId},
-    {status: 'En cours de préparation'}
+    {status: req.body.status}
   );
-
+console.log('req.body.status :', req.body.status);
   res.json({ result:true, updateStatus })
   
 
