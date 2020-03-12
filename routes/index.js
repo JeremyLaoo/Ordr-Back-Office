@@ -353,14 +353,28 @@ router.post('/load-menu', async function(req, res, next) {
  */
 router.get('/orderPayed', async function(req, res, next) {
 
-  
   var order = await orderModel.find()
 
- 
   console.log('order in back:', order);
 
-  res.json({ result:true, order: order.orderBDD })
+  res.json({ result:true, order: order })
 
+});
+
+
+/**
+ * Post status in BDD
+ */
+router.post('/status', async function(req, res, next) {
+
+  console.log('status back');
+  
+  var updateStatus = await orderModel.updateOne(
+    { _id: req.body.orderId},
+    {status: 'En cours de préparation'}
+  );
+
+  res.json({ result:true, updateStatus })
   
 
 });
