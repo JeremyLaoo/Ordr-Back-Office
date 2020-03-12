@@ -1,24 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import { Table, Button } from 'reactstrap';
-import {Link, Redirect} from 'react-router-dom'
+import { Button } from 'reactstrap';
 import {connect} from 'react-redux'
-import Nav from '../screens/nav'
-import NavOrder  from  '../screens/navOrders'
 
 /**
  * import components
  */
 
+ /**
+ * import for tables
+ */
 
-import { OmitProps } from 'antd/lib/transfer/renderListBody';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+
 
 
 
 function OrderList(props) {
-
  
   var status_EnCours = 'En cours de préparation'
-
   var orderIdToSend = props.orderId
   var statusRecupFromDB = props.status
   var titleButton = 'ACCEPTER'
@@ -43,53 +44,43 @@ function OrderList(props) {
   }
 
 
-  
-
   var articles = props.panier.map((article) => {
 
      return ( 
-   
-     <tr>
-      <th scope="row"></th>
-      <td>{article.name}</td>
-      <td>{article.quantity}</td>
-      <td>{article.price }</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
+      <TableRow>
+          <TableCell align="right" component="th" scope="row"></TableCell>
+          <TableCell align="right">{article.name}</TableCell>
+          <TableCell align="right">x {article.quantity}</TableCell>
+          <TableCell align="right">{article.price } €</TableCell>
+          <TableCell align="right"></TableCell>
+          <TableCell align="right"></TableCell>
+      </TableRow>
     )
   })
 
 
-
-
-
-
-
-
-
   return (
 
-    <tbody>
-    <tr>
-      <th scope="row">{props.orderId}</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>{props.total}</td>
-      <td>18</td>
-      <td><Button 
-           color="success"
-           onClick={() => AcceptOnClick()}
-          >{titleButton}</Button></td>
-    </tr>
-   
-   {articles}
+    <TableBody>
 
-  </tbody>
+      <TableRow style={{backgroundColor: '#fafafa', }}>
+          <TableCell align="center"component="th" scope="row">{props.orderId}</TableCell>
+          <TableCell align="right"></TableCell>
+          <TableCell align="right">10 Articles</TableCell>
+          <TableCell align="right">{props.total} €</TableCell>
+          <TableCell align="right">Table 10</TableCell>
+          <TableCell align="right"><Button variant="contained" color="primary" onClick={() => AcceptOnClick()}>{titleButton}</Button></TableCell>
+      </TableRow>
+
+      {articles}
+
+    </TableBody>
+
+  
   );
 }
 
 
 export default OrderList;
+
+

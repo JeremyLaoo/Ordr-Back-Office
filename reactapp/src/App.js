@@ -44,7 +44,7 @@ function App() {
 
       <Router>
         <Switch>
-          <Route component={Test} path="/" exact />
+          <Route component={NewOrder} path="/" exact />
           <PrivateRoute component={ScreenSuccess} path="/screensuccess" exact />
           <PrivateRoute component={NewOrder} path="/neworder" exact />
           <PrivateRoute component={OldOrder} path="/oldorder" exact />
