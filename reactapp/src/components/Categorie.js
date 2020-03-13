@@ -44,9 +44,10 @@ function Categorie(props) {
           setProduitName('');
           setProduitPrice();
           setProduitTVA();
+          setProduitNameError('');
         } else {
             setProduitNameError(response.error[0]);
-          console.log('not working');
+            console.log('not working');
         }
   
         loadProduit();
@@ -71,7 +72,7 @@ function Categorie(props) {
 
       if (produitData) {
         var produitList = produitData.map((produit,i) => {
-            return <Produit key={i} produitName={produit.name} produitPrice={produit.price} produitTVA={produit.tva} categorieName={changeCategorieName} restoToken={props.restoToken} handleClickParent={loadProduit} />
+            return <Produit key={i} produitName={produit.name} produitPrice={produit.price} produitTVA={produit.tva} categorieName={changeCategorieName} produitError={produitNameError} restoToken={props.restoToken} handleClickParent={loadProduit} />
         })
       }
 
@@ -114,6 +115,8 @@ function Categorie(props) {
     if (!disabled)
         iconChecked = <FaCheck style={{cursor: 'pointer'}} onClick={() => {setDisabled(true); handleSubmitUpdateCategory()} } />;
 
+    console.log('produitNameError :', produitNameError);
+
     return (
 <div style={{ display:'flex', flexDirection:'row', backgroundColor:'#011429', marginLeft:10, marginRight:10, margintTop: 10, borderRadius:10, borderBlock:20, borderBlockColor:'black'}}>
         <Menu mode="inline">
@@ -150,7 +153,7 @@ function Categorie(props) {
 
                 </div> */}
 
-<div style={{ flexDirection:'row', backgroundColor:'#011429', margin:10, borderRadius:10, justifyContent: 'space-around'}}>
+                <div style={{ flexDirection:'row', backgroundColor:'#011429', margin:10, borderRadius:10, justifyContent: 'space-around'}}>
                     
                     <Input  onChange={(e) => setProduitName(e.target.value)} className="Login-input" value={produitName} placeholder="Indiquer le nom du produit" />
         
@@ -160,10 +163,11 @@ function Categorie(props) {
 
                     <Button onClick={() => handleSubmitNewProduit()}  style={{  width:100, marginTop:15 }} type="primary">+</Button>
                     
-        
-                    <span style={{marginTop: '10px'}} className="error">{produitNameError}</span>
+                    {/* <span style={{marginTop: '10px'}} className="error">{produitNameError}</span> */}
 
                 </div>
+
+                <span>{produitNameError}</span>
 
                 {produitList}
 

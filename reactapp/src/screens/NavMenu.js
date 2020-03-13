@@ -28,6 +28,7 @@ function NavTable(props) {
         setCategorieName('');
       } else {
         setCategorieNameError(response.error[0]);
+        console.log('je passe là ?');
         console.log('not working');
       }
 

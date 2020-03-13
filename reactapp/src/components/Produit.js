@@ -19,11 +19,12 @@ function Produit(props) {
 
     //Change l'état de l'input
     const [changeProduitName, setChangeProduitName] = useState(props.produitName);
+    const [changeProduitPrice, setChangeProduitPrice] = useState(props.produitPrice);
     const [disabled, setDisabled] = useState(true);
 
     //Message de confirmation ou d'erreurs
     const [deleteSuccessMsg, setDeleteSuccessMsg] = useState(null);
-    const [changeCategorieNameError, setChangeCategorieNameError] = useState('');
+    // const [changeCategorieNameError, setChangeCategorieNameError] = useState(props.produitError);
 
     //Import du nom d'origin
     const categorieNameOrigin = props.categorieName;
@@ -94,11 +95,15 @@ function Produit(props) {
     if (!disabled)
         iconChecked = <FaCheck style={{cursor: 'pointer'}} onClick={() => {setDisabled(true); props.handleClickParent()} } />;
 
+    console.log('deleteSuccessMsg :', deleteSuccessMsg);
+
     return (
 
         <div style={{ display:'flex', flexDirection:'row', flexGrow: 1 , flexWrap: 'wrap', backgroundColor: '#E5E6EA', margin:10, borderRadius:10}}>
 
-            <Input onChange={(e) => setChangeProduitName(e.target.value)} className="Login-input" value={changeProduitName} disabled={disabled} />
+            <Input style={{width: 200}} onChange={(e) => setChangeProduitName(e.target.value)} className="Login-input" value={changeProduitName} disabled={disabled} />
+
+            <Input style={{width: 200}} onChange={(e) => setChangeProduitPrice(e.target.value)} className="Login-input" value={changeProduitPrice + '€'} disabled={disabled} />
 
             {iconChecked}
 
@@ -113,7 +118,7 @@ function Produit(props) {
             </Menu>
 
             <span style={{marginTop: '10px', color: 'red'}} className="error">{deleteSuccessMsg}</span>
-            <span style={{marginTop: '10px'}} className="error">{changeCategorieNameError}</span>
+            {/* <span style={{marginTop: '10px'}} className="error">{changeCategorieNameError}</span> */}
 
         </div>
 
