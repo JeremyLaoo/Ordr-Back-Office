@@ -90,7 +90,7 @@ function Nav() {
       
       <List className={classes.listToolbar}>
         
-          <Link to="/menuconfig">
+          <Link to="/neworder">
           <ListItem button key= "order" className={classes.listItem}>
             <ListItemIcon > <ListAltIcon style={{ fontSize: 25, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des commandes" />
