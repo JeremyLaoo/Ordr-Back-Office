@@ -309,7 +309,7 @@ router.post('/new-menu', async function(req, res, next) {
       var right = true;
 
       for (let j = 0; j < restoBdd.menu.length; j++) {
-        if (restoBdd.menu[j].category == req.body.categorieName) {
+        if (restoBdd.menu[j].name == req.body.categorieName) {
           right = false;
           break;
         }
@@ -317,7 +317,7 @@ router.post('/new-menu', async function(req, res, next) {
 
       if (restoBdd && right) {
         restoBdd.menu.push(
-          { category: req.body.categorieName, products: [] }
+          { name: req.body.categorieName, produits: [] }
         )
         console.log('restoBdd :', restoBdd.menu);
         saveUser = await restoBdd.save();
@@ -347,7 +347,7 @@ router.post('/delete-menu', async function(req, res, next) {
     var position = null;
 
     for (var j = 0; j < restoBdd.menu.length; j++) {
-      if (restoBdd.menu[j].category == req.body.catgorieName) {
+      if (restoBdd.menu[j].name == req.body.catgorieName) {
         position = j;
         break;
       }
@@ -381,25 +381,25 @@ router.post('/update-menu', async function(req, res, next) {
 
       var restoBdd = await userModel.findOne({ token: req.body.restoToken })
       var position = null;
-      var idSd = null;
+      // var idSd = null;
 
       for (var j = 0; j < restoBdd.menu.length; j++) {
-        if (restoBdd.menu[j].category == req.body.categorieName) {
+        if (restoBdd.menu[j].name == req.body.categorieName) {
           position = j;
-          idSd = restoBdd.menu[j]._id;
+          // idSd = restoBdd.menu[j]._id;
           break;
         }
       }
 
       for (let i = 0; i < restoBdd.menu.length; i++) {
-        if (i != j && restoBdd.menu[i].category == req.body.newCategorieName) {
+        if (i != j && restoBdd.menu[i].name == req.body.newCategorieName) {
           error.push('Nom déjà existant')
           nameExist = true;
         }
       }
 
       if (!nameExist) {
-        restoBdd.menu[position].category = req.body.newCategorieName;
+        restoBdd.menu[position].name = req.body.newCategorieName;
         saveUser = await restoBdd.save();
         result = true;
       }
