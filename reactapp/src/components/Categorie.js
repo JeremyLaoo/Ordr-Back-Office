@@ -72,7 +72,7 @@ function Categorie(props) {
 
       if (produitData) {
         var produitList = produitData.map((produit,i) => {
-            return <Produit key={i} produitName={produit.name} produitPrice={produit.price} produitTVA={produit.tva} categorieName={changeCategorieName} produitError={produitNameError} restoToken={props.restoToken} handleClickParent={loadProduit} />
+            return <Produit key={produit.name} produitName={produit.name} produitPrice={produit.price} produitTVA={produit.tva} categorieName={changeCategorieName} produitError={produitNameError} restoToken={props.restoToken} handleClickParent={loadProduit} />
         })
       }
 

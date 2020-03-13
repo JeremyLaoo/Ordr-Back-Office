@@ -20,6 +20,7 @@ function Produit(props) {
     //Change l'état de l'input
     const [changeProduitName, setChangeProduitName] = useState(props.produitName);
     const [changeProduitPrice, setChangeProduitPrice] = useState(props.produitPrice);
+    const [changeProduitTva, setChangeProduitTva] = useState(props.produitTVA);
     const [disabled, setDisabled] = useState(true);
 
     //Message de confirmation ou d'erreurs
@@ -104,6 +105,8 @@ function Produit(props) {
             <Input style={{width: 200}} onChange={(e) => setChangeProduitName(e.target.value)} className="Login-input" value={changeProduitName} disabled={disabled} />
 
             <Input style={{width: 200}} onChange={(e) => setChangeProduitPrice(e.target.value)} className="Login-input" value={changeProduitPrice + '€'} disabled={disabled} />
+
+            <Input style={{width: 200}} onChange={(e) => setChangeProduitTva(e.target.value)} className="Login-input" value={changeProduitTva + '%'} disabled={disabled} />
 
             {iconChecked}
 
