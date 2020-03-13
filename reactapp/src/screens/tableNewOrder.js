@@ -81,8 +81,8 @@ function NewOrder() {
 
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
-            <TableRow style={{backgroundColor: 'yellow' }}>
-              <TableCell align="center" style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}}>Numéro de Commande</TableCell>
+            <TableRow style={{backgroundColor: '#e3c92d' }}>
+              <TableCell align="center" style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}}>N° de Commande</TableCell>
               <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Articles</TableCell>
               <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Quantité</TableCell>
               <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Prix (€)</TableCell>
