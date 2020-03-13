@@ -451,11 +451,11 @@ router.post('/new-produit', async function(req, res, next) {
       var right = true;
 
       for (let k = 0; k < restoBdd.menu.length; k++) {
-        for (let j = 0; j < restoBdd.menu[k].products.length; j++) {
-          console.log('restoBdd.menu[k].products[j] :', restoBdd.menu[k].products[j]);
-          if (restoBdd.menu[k].products[j].name == req.body.produitName) {
+        for (let j = 0; j < restoBdd.menu[k].produits.length; j++) {
+          console.log('restoBdd.menu[k].produits[j] :', restoBdd.menu[k].produits[j]);
+          if (restoBdd.menu[k].produits[j].name == req.body.produitName) {
             right = false;
-            console.log('restoBdd.menu[k].products[j].name :', restoBdd.menu[k].products[j].name);
+            console.log('restoBdd.menu[k].produits[j].name :', restoBdd.menu[k].produits[j].name);
             error.push('Nom déjà existant')
             break;
           }
@@ -465,7 +465,7 @@ router.post('/new-produit', async function(req, res, next) {
       var position = null;
 
       for (let i = 0; i < restoBdd.menu.length; i++) {
-        if (restoBdd.menu[i].category == req.body.categorieName) {
+        if (restoBdd.menu[i].name == req.body.categorieName) {
           position = i;
           break;
         }
@@ -480,7 +480,7 @@ router.post('/new-produit', async function(req, res, next) {
 
       if (restoBdd && right && position != null && priceWithTva != null) {
         console.log('priceWithTva :', priceWithTva);
-        restoBdd.menu[position].products.push(
+        restoBdd.menu[position].produits.push(
           { name: req.body.produitName, price: priceWithTva, quantity: 0, tva: parseInt(req.body.produitTVA) }
         )
         console.log('restoBdd :', restoBdd.menu);
@@ -507,13 +507,13 @@ router.post('/load-produit', async function(req, res, next) {
   }
 
   for (let l = 0; l < restoBdd.menu.length; l++) {
-    if (restoBdd.menu[l].category == req.body.categorieName) {
+    if (restoBdd.menu[l].name == req.body.categorieName) {
       position = l;
       break;
     }
   }
 
-  var allProduit = restoBdd.menu[position].products;
+  var allProduit = restoBdd.menu[position].produits;
 
   console.log('allProduit :', allProduit);
 
@@ -538,10 +538,10 @@ router.post('/delete-produit', async function(req, res, next) {
     var position = null;
 
     for (var j = 0; j < restoBdd.menu.length; j++) {
-      if (restoBdd.menu[j].category == req.body.categorieName) {
-        for (let z = 0; z < restoBdd.menu[j].products.length; z++) {
-          if (restoBdd.menu[j].products[z].name == req.body.produitName) {
-            restoBdd.menu[j].products.splice(z, 1);
+      if (restoBdd.menu[j].name == req.body.categorieName) {
+        for (let z = 0; z < restoBdd.menu[j].produits.length; z++) {
+          if (restoBdd.menu[j].produits[z].name == req.body.produitName) {
+            restoBdd.menu[j].produits.splice(z, 1);
           }
         }
       }

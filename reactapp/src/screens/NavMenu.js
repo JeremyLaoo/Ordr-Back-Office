@@ -53,7 +53,7 @@ function NavTable(props) {
 
   if (categorieData) {
     var categorieList = categorieData.map((categorie,i) => {
-      return <Categorie key={i} categorieName={categorie.category} categorieProducts={categorie.products} restoToken={props.restoToken} handleClickParent={loadCategorie} />
+      return <Categorie key={i} categorieName={categorie.name} categorieProducts={categorie.produits} restoToken={props.restoToken} handleClickParent={loadCategorie} />
     })
   }
   var qrLogo = null;
