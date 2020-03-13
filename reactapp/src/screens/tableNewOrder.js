@@ -36,7 +36,7 @@ function NewOrder() {
 
   const classes = useStyles();
   const[orderList, setOrderList] = useState([])
-  const[panier, setPanier] = useState([])
+
 
 
   useEffect( () => {
@@ -81,13 +81,13 @@ function NewOrder() {
 
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
-            <TableRow style={{backgroundColor: 'yellow', }}>
-              <TableCell align="center" style={{fontSize: 18, fontWeight: 'bold'}}>Numéro de Commande</TableCell>
-              <TableCell style={{fontSize: 18, fontWeight: 'bold'}} align="right">Articles</TableCell>
-              <TableCell style={{fontSize: 18, fontWeight: 'bold'}} align="right">Quantité</TableCell>
-              <TableCell style={{fontSize: 18, fontWeight: 'bold'}} align="right">Prix (€)</TableCell>
-              <TableCell style={{fontSize: 18, fontWeight: 'bold'}} align="right">Table</TableCell>
-              <TableCell style={{fontSize: 18, fontWeight: 'bold'}} align="right">Status</TableCell>
+            <TableRow style={{backgroundColor: 'yellow' }}>
+              <TableCell align="center" style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}}>Numéro de Commande</TableCell>
+              <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Articles</TableCell>
+              <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Quantité</TableCell>
+              <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Prix (€)</TableCell>
+              <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="right">Table</TableCell>
+              <TableCell style={{fontSize: 18, fontWeight: 'bold', borderWidth: 3}} align="center">Status</TableCell>
             </TableRow>
           </TableHead>
 
