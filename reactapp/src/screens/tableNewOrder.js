@@ -77,7 +77,7 @@ function NewOrder() {
   <div style={{display:'flex', marginTop: 70}}>
       <Nav/>
 
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{margin: 10 }}>
 
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
