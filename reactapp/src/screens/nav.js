@@ -92,21 +92,21 @@ function Nav() {
         
           <Link to="/menuconfig">
           <ListItem button key= "order" className={classes.listItem}>
-            <ListItemIcon > <ListAltIcon style={{ fontSize: 50, color: 'white' }} /></ListItemIcon>
+            <ListItemIcon > <ListAltIcon style={{ fontSize: 36, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des commandes" />
           </ListItem>
           </Link>
 
           <Link to="/navmenu" >
           <ListItem button key="menu" className={classes.listItem}>
-            <ListItemIcon > <RestaurantMenuTwoToneIcon style={{ fontSize: 50, color: 'white' }} /> </ListItemIcon>
+            <ListItemIcon > <RestaurantMenuTwoToneIcon style={{ fontSize: 36, color: 'white' }} /> </ListItemIcon>
             <ListItemText primary="Gestion du menu" />
           </ListItem>
           </Link>
         
           <Link to="/newtable" >
           <ListItem button key= "organisation" className={classes.listItem}>
-            <ListItemIcon  ><SettingsIcon style={{ fontSize: 50, color: 'white' }} /></ListItemIcon>
+            <ListItemIcon  ><SettingsIcon style={{ fontSize: 36, color: 'white' }} /></ListItemIcon>
             <ListItemText primary="Gestion des tables" />
           </ListItem>
           </Link>

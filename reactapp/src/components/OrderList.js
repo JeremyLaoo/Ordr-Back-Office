@@ -99,28 +99,47 @@ function OrderList(props) {
     <TableBody>
 
       <TableRow style={{backgroundColor: '#fafafa', }}>
-          <TableCell align="center"component="th" scope="row">{props.orderId}</TableCell>
-          <TableCell align="right">{statusRecupFromDB}</TableCell>
-          <TableCell align="right"></TableCell>
-          <TableCell align="right">{props.total} €</TableCell>
-          <TableCell align="right">Table 10</TableCell>
+          <TableCell style={{fontWeight: 'bold', fontSize: 16 }} align="center"component="th" scope="row">
+            {props.orderId.slice(20,24).toUpperCase()}
+            </TableCell>
+          <TableCell style={{fontWeight: 'bold', fontSize: 16 }} align="right">{statusRecupFromDB}</TableCell>
+          <TableCell style={{fontWeight: 'bold', fontSize: 16 }} align="right"></TableCell>
+          <TableCell style={{fontWeight: 'bold', fontSize: 16 }} align="right">{props.total} €</TableCell>
+          <TableCell style={{fontWeight: 'bold', fontSize: 16 }} align="right">Table 10</TableCell>
           <TableCell align="right">
             <Button style={{
               backgroundColor:'#4CAF50', 
               color: 'white', 
               border:0, 
               borderRadius:10, 
-              paddingTop: 15, 
-              paddingBottom:15, 
-              paddingLeft:30, 
-              paddingRight:30, 
+              paddingTop: 10, 
+              paddingBottom:10, 
+              paddingLeft:20, 
+              paddingRight:20, 
               textAlign: 'center', 
-              fontSize:16,
+              fontSize:12,
               transitionDuration: 0.4,
-              cursor:'pointer'
+              cursor:'pointer',
+              marginRight:5
+          
         
               }} onClick={() => AcceptOnClick()}>ACCEPTER</Button>
-            <Button variant="contained" color="primary" onClick={() => TermineOnClick()}>TERMINER</Button>
+            <Button 
+              style={{
+                backgroundColor:'red', 
+                color: 'white', 
+                border:0, 
+                borderRadius:10, 
+                paddingTop: 10, 
+                paddingBottom:10, 
+                paddingLeft:20, 
+                paddingRight:20, 
+                textAlign: 'center', 
+                fontSize:12,
+                transitionDuration: 0.4,
+                cursor:'pointer',
+                marginLeft:5
+              }} onClick={() => TermineOnClick()}>TERMINER</Button>
           </TableCell>
       </TableRow>
 
