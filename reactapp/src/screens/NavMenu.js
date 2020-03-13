@@ -3,7 +3,7 @@ import {Input,Button} from 'antd';
 import {connect} from 'react-redux';
 
 import { FaQrcode } from 'react-icons/fa';
-
+import Nav from './nav'
 import Table from '../components/Table'
 
 import './App.css';
@@ -60,21 +60,25 @@ function NavTable(props) {
 
   return (
 
-    <div>
-
-      <div className="Sign">
+    <div style={{display:'flex', marginTop: 70}}>
+    <Nav/>
+    <div style={{ display:'flex', flexDirection:'column', flexGrow: 1 , flexWrap: 'wrap'}}>
+      <div  style={{color: 'white', fontWeight: 'bold', fontSize: '24', backgroundColor:'#011429', flexDirection:'row', margin :40, width:520, borderRadius: 10}}>
                 
-          <Input onChange={(e) => setCategorieName(e.target.value)} className="Login-input" value={categorieName} placeholder="new categorie name" />
+          <Input onChange={(e) => setCategorieName(e.target.value)} className="Login-input" value={categorieName} placeholder="Créer une nouvelle catégorie" />
 
-          <Button onClick={() => handleSubmitNewTable()}  style={{width:'80px'}} type="primary">+</Button>
+          <Button onClick={() => handleSubmitNewTable()}  style={{width:'80px', alignSelf:' flex-end' }} type="primary">+</Button>
 
           <span style={{marginTop: '10px'}} className="error">{CategorieNameError}</span>
 
       </div>
-
+      <span style={{fontSize: '26px', marginLeft: 10, fontWeight:'bold'}}>Choisissez votre catégorie</span>
       {categorieList}
+    </div>
 
     </div>
+
+
 
   );
 }

@@ -96,7 +96,7 @@ function Produit(props) {
 
     return (
 
-        <div className="Sign" style={{display: 'flex'}}>
+        <div style={{ display:'flex', flexDirection:'row', flexGrow: 1 , flexWrap: 'wrap', backgroundColor: '#E5E6EA', margin:10, borderRadius:10}}>
 
             <Input onChange={(e) => setChangeProduitName(e.target.value)} className="Login-input" value={changeProduitName} disabled={disabled} />
 
