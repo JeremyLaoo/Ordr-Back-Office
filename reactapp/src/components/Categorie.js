@@ -115,15 +115,16 @@ function Categorie(props) {
         iconChecked = <FaCheck style={{cursor: 'pointer'}} onClick={() => {setDisabled(true); handleSubmitUpdateCategory()} } />;
 
     return (
-
+<div style={{ display:'flex', flexDirection:'row', backgroundColor:'#011429', marginLeft:10, marginRight:10, margintTop: 10, borderRadius:10, borderBlock:20, borderBlockColor:'black'}}>
         <Menu mode="inline">
 
             <SubMenu
+            style={{backgroundColor:'white'}}
             key="sub1"
             popupClassName="Sign"
             title={
                 <span>
-                    <span>{changeCategorieName}</span>
+                    <span style={{fontSize:20, fontWeight:'bold', textAlign:'center',  color:'Black'}}>{changeCategorieName}</span>
                 </span>
             }
             >
@@ -149,15 +150,16 @@ function Categorie(props) {
 
                 </div> */}
 
-                <div className="Sign">
+<div style={{ flexDirection:'row', backgroundColor:'#011429', margin:10, borderRadius:10, justifyContent: 'space-around'}}>
                     
-                    <Input onChange={(e) => setProduitName(e.target.value)} className="Login-input" value={produitName} placeholder="new produit name" />
+                    <Input  onChange={(e) => setProduitName(e.target.value)} className="Login-input" value={produitName} placeholder="Indiquer le nom du produit" />
         
-                    <Input onChange={(e) => setProduitPrice(e.target.value)} className="Login-input" value={produitPrice} placeholder="price" />
+                    <Input style={{  width:250 }} onChange={(e) => setProduitPrice(e.target.value)} className="Login-input" value={produitPrice} placeholder= 'Indiquer le prix' />
 
-                    <Input onChange={(e) => setProduitTVA(e.target.value)} className="Login-input" value={produitTVA} placeholder="0-100 TVA (in pourcent %)" />
+                    <Input style={{  width:250 }} onChange={(e) => setProduitTVA(e.target.value)} className="Login-input" value={produitTVA} placeholder="0-100 TVA (in pourcent %)" />
 
-                    <Button onClick={() => handleSubmitNewProduit()}  style={{width:'80px'}} type="primary">+</Button>
+                    <Button onClick={() => handleSubmitNewProduit()}  style={{  width:100, marginTop:15 }} type="primary">+</Button>
+                    
         
                     <span style={{marginTop: '10px'}} className="error">{produitNameError}</span>
 
@@ -174,7 +176,7 @@ function Categorie(props) {
 
         
         </Menu>
-
+</div>
     );
 }
 
